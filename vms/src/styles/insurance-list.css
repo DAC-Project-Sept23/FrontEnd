@@ -1,0 +1,106 @@
+.topic{
+  background-color: antiquewhite;
+  display: inline;
+  padding: 0 1rem;
+}
+
+/* insurance-list.css */
+
+.container {
+  padding: 20px;
+}
+
+.insurance-list {
+  margin-top: 20px;
+}
+
+.selected-car {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.insurance-options,
+.finance-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 40px;
+}
+
+.insurance-card-list,
+.finance-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.insurance-card,
+.finance-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+  width: calc(1120% - 20px);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.insurance-card.selected,
+.finance-card.selected {
+  border: 2px solid #007bff;
+}
+
+.insurance-card:hover,
+.finance-card:hover {
+  transform: scale(1.05);
+}
+
+.insurance-provider,
+.finance-name {
+  font-size: 18px;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.premium-amount,
+.loan-amount,
+.interest-rate,
+.year {
+  color: #666666;
+  margin-bottom: 5px;
+}
+
+/* Additional styling for delivery and payment sections */
+
+.delivery-payment-section {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-options {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.payment-options label {
+  font-size: 14px;
+}
+
+.payment-form {
+  margin-top: 20px;
+}
+
+.payment-form button {
+  margin-top: 10px;
+}

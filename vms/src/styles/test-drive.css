@@ -1,0 +1,67 @@
+.test-drive-container {
+    max-width: 400px;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .test-drive-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .test-drive-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .test-drive-container select,
+  .test-drive-container input[type="text"],
+  .test-drive-container input[type="tel"],
+  .test-drive-container input[type="email"],
+  .test-drive-container input[type="date"],
+  .test-drive-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .test-drive-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .test-drive-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Additional styling for disabled fields */
+  .test-drive-container input[readonly] {
+    background-color: #f4f4f4;
+    cursor: not-allowed;
+  }
+  
+  /* Additional styling for textarea */
+  .test-drive-container textarea {
+    resize: vertical;
+  }
+  
+  /* Additional styling for form messages */
+  .test-drive-container p {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #28a745; /* Success color */
+  }

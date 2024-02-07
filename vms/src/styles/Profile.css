@@ -1,0 +1,16 @@
+ .sidebar .nav-link {
+    color: #333; /* Default text color */
+    border-radius: 0; /* Remove border radius */
+    transition: background-color 0.3s; /* Smooth transition */
+  }
+  
+  .sidebar .nav-link.active {
+    background-color: #007bff; /* Active item background color */
+    color: #fff; /* Active item text color */
+  }
+  
+  .sidebar .nav-link:hover {
+    background-color: orange; /* Hover background color */
+    color: #495057; /* Hover text color */
+  }
+  

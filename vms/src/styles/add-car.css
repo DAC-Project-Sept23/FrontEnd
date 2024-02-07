@@ -1,0 +1,53 @@
+.add-car-form {
+    background-color: #f7f7f7;
+    padding: 20px;
+    width: 500px;
+    margin-left: 400px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-car-button {
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+.back-button {
+    margin-top: 20px;
+}
+
+.add-car-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px 15px;
+}
