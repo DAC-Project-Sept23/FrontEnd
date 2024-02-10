@@ -2,28 +2,48 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import DisplayBook from '../UI/DisplayBook';
+import { createUrl } from '../../utils/utils';
+import { toast } from 'react-toastify';
 const ProcessEbook = () => {
   const { id } = useParams();
   // const navigate = useNavigate();
   const [comment, setComment] = useState('');
-  const [status, setStatus] = useState('approved');
+  const [status, setStatus] = useState('APPROVED');
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
   };
 
-  const handleSubmit = () => {
-    // Perform submission logic here
-    console.log('Ebook ID:', id);
-    console.log('Admin ID:', sessionStorage.getItem('adminId'));
-    console.log('Status:', status);
-    console.log('Comment:', comment);
-    // Reset form fields
-    setStatus('approved');
-    setComment('');
-    // You can add submission logic here (e.g., sending data to the server)
-    // After submission, you can navigate to another page or perform any necessary action
+  const handleSubmit = async () => {
+    try {
+      // const adminId = sessionStorage.getItem('userId');
+      const adminId = 1;
+      const url = createUrl("/admin/process");
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bookId: id,
+          adminId: adminId,
+          sts: status,
+          comment: comment,
+        }),
+      });
+  
+      if (response.ok) {
+        toast.success('Ebook processing successful');
+        // Optionally, perform navigation or any other action after successful submission
+      } else {
+        toast.error('Failed to process ebook');
+      }
+    } catch (error) {
+      toast.error('Error processing ebook:', error);
+      // Optionally, handle errors here (e.g., display an error message)
+    }
   };
+  
 
   return (
     <>
@@ -37,20 +57,15 @@ const ProcessEbook = () => {
                   <Form.Control type="text" value={id} disabled />
                 </Form.Group>
 
-                <Form.Group controlId="adminId">
-                  <Form.Label>Admin ID:</Form.Label>
-                  <Form.Control type="text" value={sessionStorage.getItem('adminId')} disabled />
-                </Form.Group>
-
                 <Form.Group controlId="status">
                   <Form.Label>Status:</Form.Label>
                   <Form.Control as="select" value={status} onChange={handleStatusChange}>
-                    <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="APPROVED">Approved</option>
+                    <option value="REJECTED">Rejected</option>
                   </Form.Control>
                 </Form.Group>
 
-                {status === 'rejected' && (
+                {status === 'REJECTED' && (
                   <Form.Group controlId="comment">
                     <Form.Label>Comment:</Form.Label>
                     <Form.Control as="textarea" value={comment} onChange={(e) => setComment(e.target.value)} />
@@ -61,7 +76,7 @@ const ProcessEbook = () => {
                   <Button variant="primary" type="submit">
                     Submit
                   </Button>
-                  <Button variant="secondary" type="reset" onClick={() => { setStatus('approved'); setComment(''); }}>
+                  <Button variant="secondary" type="reset" onClick={() => { setStatus('APPROVED'); setComment(''); }}>
                     Reset
                   </Button>
                 </div>

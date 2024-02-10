@@ -13,10 +13,10 @@ const ProcessedByMe = () => {
   // Function to fetch all processed books by admin from the backend
   const fetchProcessedBooks = async () => {
     try {
-      // Fetch admin ID from session storage
-      const adminId = sessionStorage.getItem('userId');
+      // const adminId = sessionStorage.getItem('userId');
+      const adminId = 1;
       // Make a GET request to fetch all processed books from the backend based on admin ID
-      const url = createUrl(`/admin/processed/${adminId}`);
+      const url = createUrl(`/admin/rejected/${adminId}`);
       const response = await axios.get(url);
       // Update state with the fetched processed books
       setBooks(response.data);
@@ -68,15 +68,15 @@ const ProcessedByMe = () => {
         <tbody>
           {/* Map through the array of books and render a row for each book */}
           {books.map((book) => (
-            <tr key={book.bookId}>
-              <td>{book.bookId}</td>
+            <tr key={book.id}>
+              <td>{book.id}</td>
               <td>{book.title}</td>
               <td>{book.genre}</td>
               <td>{book.price}</td>
               <td>{book.addedOn}</td>
-              <td>{book.authorName}</td>
+              <td>{book.firstName + " " + book.lastName}</td>
               <td>{book.authorId}</td>
-              <td>{book.processedOn}</td>
+              <td>{book.approvedOn}</td>
               <td>{book.status}</td>
               <td>
                 {/* Link to navigate to EbookDetail component with the book ID as a prop */}

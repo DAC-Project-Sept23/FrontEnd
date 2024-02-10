@@ -12,17 +12,20 @@ const AccountDetails = () => {
   const [originalUserDetails, setOriginalUserDetails] = useState({}); // Store original user details
   const [isEditable, setIsEditable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [userId, setUserId] = useState(null);
   useEffect(() => {
-    const userIdFromStorage = sessionStorage.getItem('userId');
+    // const userIdFromStorage = sessionStorage.getItem('userId');
+    const userIdFromStorage = 1;
     if (userIdFromStorage) {
+      // setUserId(userIdFromStorage);
+      setUserId(1);
       fetchUserDetails(userIdFromStorage);
     }
   }, []);
 
   const fetchUserDetails = async (userId) => {
     try {
-      const url = createUrl(`users/${userId}`)
+      const url = createUrl(`/users/getUser/${userId}`)
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
@@ -49,6 +52,7 @@ const AccountDetails = () => {
           firstName: userDetails.firstName,
           lastName: userDetails.lastName,
           birthdate: userDetails.birthdate,
+          id : userId
         }),
       });
       if (response.ok) {
@@ -119,7 +123,7 @@ const AccountDetails = () => {
           <Form.Label>Birthdate:</Form.Label>
           <Form.Control
             type="date"
-            value={userDetails.birthdate}
+            value={userDetails.dob}
             onChange={(e) => setUserDetails({ ...userDetails, birthdate: e.target.value })}
             readOnly={!isEditable}
             required

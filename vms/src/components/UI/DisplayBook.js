@@ -24,8 +24,7 @@ const DisplayBook = ({id}) => {
           const data = await response.json();
           toast.success('Success fetching ebook');
           const epubUrl = data.epubPath;
-          // setEpubUrl(epubUrl);
-          setEpubUrl("http://localhost:8080/epub_1707450250384.epub");
+          setEpubUrl(epubUrl);
         } else {
           console.error('Error fetching ebook details:', response.statusText);
           toast.error('Error fetching ebook details:', response.statusText);

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-const EbookCard = ({ id, coverImageContent, title, genre, author, price }) => {
+const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, price }) => {
   const imageUrl = coverImageContent ? `data:image/jpeg;base64,${coverImageContent}` : 'placeholder_image_url.jpg';
 
   return (
@@ -23,7 +23,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, author, price }) => {
           <div className="p-3 border border-secondary border-top-0 rounded-bottom">
             <h5>{title}</h5>
             <p>
-              <h5>By {author}</h5>
+              <h5>By {firstName + " " + lastName}</h5>
             </p>
             <div className="d-flex justify-content-between flex-lg-wrap">
               <p className="text-dark fs-5 fw-bold mb-0">{price}</p>
@@ -31,7 +31,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, author, price }) => {
                 type="button"
                 className="btn border border-secondary rounded-pill px-3 text-primary"
               >
-                <i className="fa fa-shopping-bag me-2 text-primary" /> Read later
+                <i className="fa fa-shopping-bag me-2 text-primary" /> Wishlist
               </button>
             </div>
           </div>

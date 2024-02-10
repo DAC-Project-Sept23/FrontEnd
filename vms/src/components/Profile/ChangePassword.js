@@ -20,13 +20,14 @@ const ChangePassword = () => {
     var id = sessionStorage.getItem('userId');
     // delete this later
     id = 1;
-      const url = createUrl(`/user/changepassword/${id}`);
+      // const url = createUrl(`/users/UpdatePassword/${id}`);
+      const url = createUrl('/users/UpdatePassword');
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ currentPassword, newPassword }),
+        body: JSON.stringify({ oldPass: currentPassword, newPass: newPassword, userId : id }),
       });
 
       if (!response.ok) {

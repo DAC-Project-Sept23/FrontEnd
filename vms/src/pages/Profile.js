@@ -78,6 +78,7 @@ import '../styles/Profile.css';
 import Helmet from '../components/Helmet/Helmet';
 import CommonSection from '../components/UI/CommonSection';
 import MyWork from '../components/Profile/MyWork';
+import Wishlist from '../components/Profile/Wishlist';
 const Profile = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
 
@@ -95,8 +96,10 @@ const Profile = () => {
         return <Settings />;
       case 'MyBookCollection':
         return <MyBookCollection />;
-        case 'MyWork':
+      case 'MyWork':
         return <MyWork />;
+      case 'Wishlist':
+        return <Wishlist />;
       default:
         return null;
     }
@@ -151,6 +154,12 @@ const Profile = () => {
               onClick={() => setSelectedComponent('Settings')}
             >
               Settings
+            </Nav.Link>
+            <Nav.Link
+              className={selectedComponent === 'Wishlist' ? 'active' : ''}
+              onClick={() => setSelectedComponent('Wishlist')}
+            >
+              Wishlist
             </Nav.Link>
           </Nav>
         </Col>
