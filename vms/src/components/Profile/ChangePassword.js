@@ -1,88 +1,80 @@
 import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { createUrl, log } from '../../utils/utils';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../styles/ChangePassword.css';
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsLoading(true); // Show loading indicator
-    setErrorMessage(''); // Clear any previous errors
+    setIsLoading(true);
 
-    // Validate password fields
-    if (!currentPassword) {
-      setErrorMessage('Current password is required.');
-      setIsLoading(false);
-      return;
-    }
-    if (!newPassword) {
-      setErrorMessage('New password is required.');
-      setIsLoading(false);
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setErrorMessage('New passwords must match.');
-      setIsLoading(false);
-      return;
-    }
-
-    // Replace this with your actual password change logic (using API calls, etc.)
     try {
-      const response = await fetch('/api/change-password', {
+      //change it const
+    var id = sessionStorage.getItem('userId');
+    // delete this later
+    id = 1;
+      const url = createUrl(`/user/changepassword/${id}`);
+      const response = await fetch(url, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ currentPassword, newPassword }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to change password.');
+        throw new Error('Failed to change password.');
       }
 
-      // Password changed successfully, handle success (e.g., show a message)
-      console.log('Password changed successfully!');
+      toast.success('Password changed successfully!');
       setIsLoading(false);
-      // Implement success handling, like showing a confirmation message
+      resetForm();
     } catch (error) {
-      setErrorMessage(error.message);
+      toast.error('Failed to change password.');
       setIsLoading(false);
     }
   };
 
+  const resetForm = () => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+  };
+
   return (
-    <div className="change-password-inner">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="current-password">Current Password:</label>
-        <input
-          type="password"
-          id="current-password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          required
-        />
-        <label htmlFor="new-password">New Password:</label>
-        <input
-          type="password"
-          id="new-password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-        <label htmlFor="confirm-password">Confirm Password:</label>
-        <input
-          type="password"
-          id="confirm-password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Change Password'}
-        </button>
-      </form>
+    <div className="upload-form-container">
+      <h2 className="form-heading">Change Password</h2>
+      <Form className="change-password-form" onSubmit={handleSubmit}>
+        <Form.Group controlId="currentPassword">
+          <Form.Label>Current Password:</Form.Label>
+          <Form.Control type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+        </Form.Group>
+
+        <Form.Group controlId="newPassword">
+          <Form.Label>New Password:</Form.Label>
+          <Form.Control type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+        </Form.Group>
+
+        <Form.Group controlId="confirmPassword">
+          <Form.Label>Confirm Password:</Form.Label>
+          <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        </Form.Group>
+        <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+          <Button variant="primary" type="submit" disabled={isLoading}>
+            {isLoading ? 'Saving...' : 'Change Password'}
+          </Button>
+          <Button variant="secondary" onClick={resetForm} disabled={isLoading}>
+            Reset
+          </Button>
+        </div>
+      </Form>
     </div>
   );
 };

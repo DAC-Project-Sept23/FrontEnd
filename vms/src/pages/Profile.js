@@ -76,6 +76,8 @@ import MyBookCollection from '../components/Profile/MyBookCollection';
 import ProfileContent from '../components/Profile/ProfileContent';
 import '../styles/Profile.css';
 import Helmet from '../components/Helmet/Helmet';
+import CommonSection from '../components/UI/CommonSection';
+import MyWork from '../components/Profile/MyWork';
 const Profile = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
 
@@ -93,14 +95,18 @@ const Profile = () => {
         return <Settings />;
       case 'MyBookCollection':
         return <MyBookCollection />;
+        case 'MyWork':
+        return <MyWork />;
       default:
         return null;
     }
   };
 
   return (
+    <>
+    <Helmet title="Profile"/>
+    <CommonSection title="My Profile" />
     <Container fluid>
-      <Helmet title="Profile"/>
       <Row>
         <Col sm={3} className="bg-light sidebar">
           <Nav className="flex-column">
@@ -135,6 +141,12 @@ const Profile = () => {
               Publish Book
             </Nav.Link>
             <Nav.Link
+              className={selectedComponent === 'MyWork' ? 'active' : ''}
+              onClick={() => setSelectedComponent('MyWork')}
+            >
+              My Work
+            </Nav.Link>
+            <Nav.Link
               className={selectedComponent === 'Settings' ? 'active' : ''}
               onClick={() => setSelectedComponent('Settings')}
             >
@@ -147,6 +159,7 @@ const Profile = () => {
         </Col>
       </Row>
     </Container>
+    </>
   );
 };
 

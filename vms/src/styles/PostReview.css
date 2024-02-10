@@ -29,13 +29,29 @@
   .upload-form button {
     align-self: flex-start;
   }
-  
-  .upload-form a {
-    color: #007bff; /* Set the link color */
-    text-decoration: none; /* Remove underline */
-}
 
-.upload-form a:hover {
-    color: #0056b3; /* Change color on hover */
-    text-decoration: underline; /* Add underline on hover */
+.star {
+    font-size: 6vh;
+    cursor: pointer;
 }
+    
+.one {
+    color: rgb(255, 0, 0);
+}
+    
+.two {
+    color: rgb(255, 106, 0);
+}
+    
+.three {
+    color: rgb(251, 255, 120);
+}
+    
+.four {
+    color: rgb(255, 255, 0);
+}
+    
+.five {
+    color: rgb(24, 159, 14);
+}
+    

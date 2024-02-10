@@ -13,7 +13,7 @@ const EbookList = () => {
   useEffect(() => {
     const fetchEbooks = async () => {
       try {
-        const url = createUrl('/books');
+        const url = createUrl('/books/approved');
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();

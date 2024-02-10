@@ -5,7 +5,7 @@ import '../styles/bootstrap.min.css';
 import { createUrl, log } from '../utils/utils';
 import { toast } from 'react-toastify';
 import EbookCard from '../components/UI/EbookCard';
-
+import CommonSection from '../components/UI/CommonSection';
 const Categories = () => {
   const [ebooks, setEbooks] = useState([]);
   const [filteredEbooks, setFilteredEbooks] = useState([]);
@@ -19,7 +19,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchEbooks = async () => {
       try {
-        const url = createUrl('/books');
+        const url = createUrl('/books/approved');
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
@@ -95,6 +95,8 @@ const Categories = () => {
   };
 
   return (
+    <>
+    <CommonSection title="Search for your favourite books" />
     <div className="container-fluid fruite py-3 mt-3">
       <div className="row g-4">
         <div className="col-md-3">
@@ -134,6 +136,7 @@ const Categories = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
