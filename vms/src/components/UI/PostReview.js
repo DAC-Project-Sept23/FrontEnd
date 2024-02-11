@@ -4,12 +4,14 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../styles/PostReview.css';
 import { createUrl } from "../../utils/utils";
-const PostReview = () => {
+const PostReview = ({bookId}) => {
     const [review, setReview] = useState("");
     const [rating, setRating] = useState(0); // Initialize rating state to 0
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        // const userId = sessionStorage.getItem('userId');
+        const userId = 1;
         // Validate if review or rating is empty
         if (!review.trim() || rating === 0) {
             toast.error('Please provide a review and rating.');
@@ -18,13 +20,13 @@ const PostReview = () => {
         
         // Make an API call to submit the review
         try {
-            const url = createUrl('/reviews');
+            const url = createUrl('/books/rating');
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ review, rating })
+                body: JSON.stringify({id:{userId: userId, ebookId: bookId}, comment: review, rating: rating })
             });
             
             if (response.ok) {

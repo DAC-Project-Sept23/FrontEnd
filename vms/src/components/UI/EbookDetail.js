@@ -8,7 +8,7 @@ const EbookDetail = () => {
   return (
     <>
     <DisplayBook id={id}/>
-    <PostReview/>
+    <PostReview bookId={id}/>
     <Reviews id={id}/>
     </>
   );

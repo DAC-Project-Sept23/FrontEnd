@@ -27,7 +27,7 @@ const ProcessEbook = () => {
         body: JSON.stringify({
           bookId: id,
           adminId: adminId,
-          sts: status,
+          status: status,
           comment: comment,
         }),
       });
