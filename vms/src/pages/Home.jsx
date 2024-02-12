@@ -16,10 +16,10 @@ const Home = () => {
   //delete this later
   sessionStorage.setItem("isLoggedIn", true);
   return (
-    <>
+    <div className="container">
     <Helmet title="Home"/>
     <EbookList/>
-    </>
+    </div>
   )
 };
 

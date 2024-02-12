@@ -31,7 +31,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
                 type="button"
                 className="btn border border-secondary rounded-pill px-3 text-primary"
               >
-                <i className="fa fa-shopping-bag me-2 text-primary" /> Wishlist
+                <i className="fa fa-shopping-bag me-2 text-primary" /> Buy
               </button>
             </div>
           </div>

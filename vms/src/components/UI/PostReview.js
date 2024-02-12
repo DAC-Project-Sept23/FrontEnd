@@ -20,13 +20,13 @@ const PostReview = ({bookId}) => {
         
         // Make an API call to submit the review
         try {
-            const url = createUrl('/books/rating');
+            const url = createUrl('/rating');
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({id:{userId: userId, ebookId: bookId}, comment: review, rating: rating })
+                body: JSON.stringify({userId: userId, bookId: bookId, comment: review, rating: rating })
             });
             
             if (response.ok) {

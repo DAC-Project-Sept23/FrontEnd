@@ -1,33 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import '../../styles/Review.css';
 import Review from "./Review"; // Assuming Review component is in a separate file
-import { createUrl } from "../../utils/utils";
-import { toast } from 'react-toastify';
 
-const Reviews = ({ id }) => {
-    const [reviews, setReviews] = useState([]);
+const Reviews = ({ reviews, userId, onDelete, onUpdate }) => {
+    const handleDelete = (review) => {
+        // Call onDelete function with the review to be deleted
+        onDelete(review);
+    };
 
-    useEffect(() => {
-        const fetchReviews = async () => {
-            try {
-                const url = createUrl(`/reviews/${id}`);
-                const response = await fetch(url);
-                const data = await response.json();
-                setReviews(data);
-            } catch (error) {
-                toast.error("Error fetching reviews.");
-            }
-        };
-
-        fetchReviews();
-    }, [id]);
+    const handleUpdate = (review) => {
+        // Call onUpdate function with the review to be updated
+        onUpdate(review);
+    };
 
     return (
-        <div>
+        <div className="container col-lg-4">
             {reviews && reviews.length > 0 ? (
                 <div>
                     <h1>Reviews</h1>
                     {reviews.map((review, index) => (
-                        <Review key={index} review={review} />
+                        <Review key={index} review={review} userId={userId} onDelete={handleDelete} onUpdate={handleUpdate} />
                     ))}
                 </div>
             ) : (
@@ -35,8 +27,7 @@ const Reviews = ({ id }) => {
             )}
         </div>
     );
-    
-    
 };
 
 export default Reviews;
+

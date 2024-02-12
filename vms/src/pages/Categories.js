@@ -43,19 +43,25 @@ const Categories = () => {
   const categories = ['CHILDERNS', 'ROMANCE', 'YOUNG_ADULT', 'NON_FICTION', 'SCIENCE_FICTION', 'HORROR', 'BIOGRAPHIES'];
 
   // Function to filter ebooks based on category and author
-  const filterEbooks = () => {
-    let filtered = [...ebooks];
+  // Function to filter ebooks based on category and author
+const filterEbooks = () => {
+  let filtered = [...ebooks];
 
-    if (filterOptions.category) {
-      filtered = filtered.filter(ebook => ebook.genre === filterOptions.category);
-    }
+  if (filterOptions.category) {
+    filtered = filtered.filter(ebook => ebook.genre === filterOptions.category);
+  }
 
-    if (filterOptions.author) {
-      filtered = filtered.filter(ebook => ebook.author_name === filterOptions.author);
-    }
+  if (filterOptions.author) {
+    const normalizedAuthor = filterOptions.author.toLowerCase(); // Normalize author name to lowercase for case-insensitive comparison
+    filtered = filtered.filter(ebook => {
+      const authorName = `${ebook.firstName} ${ebook.lastName}`.toLowerCase();
+      return authorName.includes(normalizedAuthor);
+    });
+  }
 
-    setFilteredEbooks(filtered);
-  };
+  setFilteredEbooks(filtered);
+};
+
 
   // Function to sort ebooks based on selected sort criteria
   const sortEbooks = () => {
@@ -97,7 +103,7 @@ const Categories = () => {
   return (
     <>
     <CommonSection title="Search for your favourite books" />
-    <div className="container-fluid fruite py-3 mt-3">
+    <div className="container-fluid fruite py-3 mt-3 container">
       <div className="row g-4">
         <div className="col-md-3">
           <select value={filterOptions.category} onChange={handleCategoryChange}>
