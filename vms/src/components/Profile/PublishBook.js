@@ -106,11 +106,6 @@ const PublishBook = () => {
           <Form.Control type="text" value={bookName} onChange={(e) => setBookName(e.target.value)} />
         </Form.Group>
 
-        {/* <Form.Group controlId="genre">
-          <Form.Label>Genre</Form.Label>
-          <Form.Control type="text" value={genre} onChange={(e) => setGenre(e.target.value)} />
-        </Form.Group> */}
-
         <Form.Group controlId="genre">
           <Form.Label>Genre</Form.Label>
           <Form.Control as="select" value={genre} onChange={(e) => setGenre(e.target.value)}>

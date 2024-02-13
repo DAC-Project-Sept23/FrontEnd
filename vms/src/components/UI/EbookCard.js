@@ -27,12 +27,9 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
             </p>
             <div className="d-flex justify-content-between flex-lg-wrap">
               <p className="text-dark fs-5 fw-bold mb-0">{price}</p>
-              <button
-                type="button"
-                className="btn border border-secondary rounded-pill px-3 text-primary"
-              >
-                <i className="fa fa-shopping-bag me-2 text-primary" /> Buy
-              </button>
+               <Link to={`/buy/${id}`} className="btn border border-secondary rounded-pill px-3 text-primary">
+                  <i className="fa fa-shopping-bag me-2 text-primary" /> Buy
+                </Link>
             </div>
           </div>
         </div>

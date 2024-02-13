@@ -12,6 +12,7 @@ import Helmet from '../components/Helmet/Helmet';
 import CommonSection from '../components/UI/CommonSection';
 import MyWork from '../components/Profile/MyWork';
 import Wishlist from '../components/Profile/Wishlist';
+import MyEarnings from '../components/Profile/MyEarnings';
 const Profile = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
 
@@ -33,6 +34,8 @@ const Profile = () => {
         return <MyWork />;
       case 'Wishlist':
         return <Wishlist />;
+      case 'MyEarnings':
+        return <MyEarnings/>;
       default:
         return null;
     }
@@ -81,6 +84,12 @@ const Profile = () => {
               onClick={() => setSelectedComponent('MyWork')}
             >
               My Work
+            </Nav.Link>
+            <Nav.Link
+              className={selectedComponent === 'MyEarnings' ? 'active' : ''}
+              onClick={() => setSelectedComponent('MyEarnings')}
+            >
+              My Earnings
             </Nav.Link>
             <Nav.Link
               className={selectedComponent === 'Settings' ? 'active' : ''}

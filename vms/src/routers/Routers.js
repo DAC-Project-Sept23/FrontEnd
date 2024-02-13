@@ -24,6 +24,8 @@ import BookingPage from "../components/UI/BookingPage";
 import EbookDetail from "../components/UI/EbookDetail";
 import Profile from "../pages/Profile";
 import Categories from "../pages/Categories";
+import UpdateEbook from "../components/Profile/UpdateEbook";
+import CheckoutForm from "../components/Payment/CheckoutForm";
 
 const Routers = () => {
   return (
@@ -50,6 +52,8 @@ const Routers = () => {
       <Route path="/process/:id" element={<ProcessEbook />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/categories" element={<Categories />} />
+      <Route path="/edit-book/:id" element={<UpdateEbook />} />
+      <Route path="/buy/:id" element={<CheckoutForm />} />
     </Routes>
 
     <ToastContainer/>

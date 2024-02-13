@@ -3,17 +3,42 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ReactReader } from 'react-reader';
 import { createUrl } from '../../utils/utils';
 import { toast } from 'react-toastify';
-
-const DisplayBook = ({id}) => {
+import SignInPrompt from './SignInPrompt'; // Import the SignInPrompt component
+import BuyEbook from './BuyEbook';
+const DisplayBook = ({ id }) => {
   const [epubUrl, setEpubUrl] = useState(null);
   const readerRef = useRef();
   const [location, setLocation] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageCount, setPageCount] = useState(0); // Counter for page count
+  const [userBooks, setUserBooks] = useState([]); // Array of book IDs bought by the user
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track if user is logged in
   const navigate = useNavigate();
 
-  const locationChanged = (epubcifi) => {
-    setLocation(epubcifi);
-  };
+  useEffect(() => {
+    // Check if user is logged in
+    setIsLoggedIn(sessionStorage.getItem('isLoggedIn') === 'true');
+
+    // Fetch user's bought books
+    const fetchUserBooks = async () => {
+      try {
+        const response = await fetch('/api/user/books');
+        if (response.ok) {
+          const data = await response.json();
+          setUserBooks(data.books);
+        } else {
+          console.error('Error fetching user books:', response.statusText);
+          toast.error('Error fetching user books:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error during fetchUserBooks:', error);
+        toast.error('Error during fetchUserBooks:', error);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUserBooks();
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const fetchEbookDetails = async () => {
@@ -23,8 +48,10 @@ const DisplayBook = ({id}) => {
         if (response.ok) {
           const data = await response.json();
           toast.success('Success fetching ebook');
-          const epubUrl = data.epubPath;
-          // setEpubUrl(epubUrl);
+          const fullEpubUrl = data.epubPath; // Assume backend provides single epub url
+
+          // Set epubUrl to the full path initially
+          // setEpubUrl(fullEpubUrl);
           setEpubUrl('http://localhost:8080/books/epub_1707551478215.epub');
         } else {
           console.error('Error fetching ebook details:', response.statusText);
@@ -37,23 +64,28 @@ const DisplayBook = ({id}) => {
     };
 
     fetchEbookDetails();
-  }, [id]);
+  }, [id]); // Include id in dependency array
 
-  // useEffect(() => {
-  //   if (readerRef.current && epubUrl) {
-  //     readerRef.current.set('url', epubUrl);
-  //   }
-  // }, [epubUrl]);
-
-  const handleJumpToPage = () => {
-    if (readerRef.current && pageNumber >= 1) {
-      readerRef.current.navigate(pageNumber);
-    }
+  const handleLocationChanged = (newLocation) => {
+    // toast.error('Location changed');
+    // Increment page count
+    setPageCount(prevCount => prevCount + 1);
   };
 
-  if (!epubUrl) {
-    return <div>Loading...</div>;
+  const hasBoughtBook = userBooks.includes(id);
+
+  if (!isLoggedIn) {
+    if (pageCount >= 5) {
+      return <SignInPrompt />;
+    }
   }
+
+  if (isLoggedIn && !hasBoughtBook) {
+    if (pageCount >= 5) {
+    return <BuyEbook id={id} />;
+    }
+  }
+
 
   const goBackToHome = () => {
     navigate(-1);
@@ -65,23 +97,20 @@ const DisplayBook = ({id}) => {
       <button onClick={goBackToHome} className="btn btn-outline-dark m-2">Close</button>
       <div style={{ height: '100vh', width: '75vh' }}>
         <ReactReader
-          location={location}
           title="Ebook Title" // Pass your ebook title here
-          locationChanged={locationChanged}
+          location={location}
+          locationChanged={handleLocationChanged} // Handle location change event
           url={epubUrl}
-          epubOptions={{
-            allowPopups: true,
-            allowScriptedContent: true,
-          }}
-          ref={readerRef}
+          getRendition={(rendition) => { readerRef.current = rendition; }} // Store reference to the reader
+          showToc={false}
         />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <input type="number" value={pageNumber} onChange={(e) => setPageNumber(parseInt(e.target.value))} />
-        <button onClick={handleJumpToPage}>Jump to Page</button>
       </div>
     </div>
   );
 };
 
 export default DisplayBook;
+
+
+
+

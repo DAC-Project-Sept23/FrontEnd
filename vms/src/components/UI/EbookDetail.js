@@ -36,7 +36,7 @@
 // export default EbookDetail;
 
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Reviews from './Reviews';
 import PostReview from './PostReview';
 import DisplayBook from './DisplayBook';
@@ -46,6 +46,7 @@ import { toast } from 'react-toastify';
 const EbookDetail = () => {
   const { id } = useParams();
   const [reviews, setReviews] = useState([]);
+  const navigate = useNavigate();
   // const loggedInUserId = sessionStorage.getItem('userId');
   const loggedInUserId = 1;
 
@@ -113,13 +114,16 @@ const handleUpdate = async (updatedReview) => {
 };
 
   const userHasPostedReview = reviews.some(review => review.userId === loggedInUserId);
-
+  const goBackToHome = () => {
+    navigate(-1);
+  };
   return (
-    <>
-      <DisplayBook id={id}/>
-      {!userHasPostedReview && <PostReview bookId={id}/>}
-      <Reviews reviews={reviews} userId={loggedInUserId} onDelete={handleDelete} onUpdate={handleUpdate}/>
-    </>
+    <div>
+    {/* <button onClick={goBackToHome} className="btn btn-outline-dark m-2">Close</button> */}
+    <DisplayBook id={id}/>
+    {!userHasPostedReview && <PostReview bookId={id}/>}
+    <Reviews reviews={reviews} userId={loggedInUserId} onDelete={handleDelete} onUpdate={handleUpdate}/>
+  </div>
   );
 };
 
