@@ -2,34 +2,27 @@ import React, { useState, useEffect } from "react";
 import { createUrl } from "../../utils/utils";
 import { toast } from "react-toastify";
 import { Modal, Button } from 'react-bootstrap'; // Import Modal and Button from react-bootstrap
+import axios from 'axios';
 
 const MyEarnings = () => {
-  const [earnings, setEarnings] = useState([]);
+  const [books, setBooks] = useState([]);
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(true); // State to manage modal open/close
 
   useEffect(() => {
     const fetchEarnings = async () => {
-      try {
-        // Make a fetch request to get earnings of the current logged-in user
         const userId = sessionStorage.getItem('userId');
-        const url = createUrl(`/api/earnings/${userId}`)
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          setEarnings(data.earnings);
-          // Calculate total earnings
-          const total = data.earnings.reduce((acc, curr) => acc + curr.earning, 0);
+        try {
+          // const url = createUrl(`/books/user/approved/${userId}`);
+          const url = createUrl(`/books/user/approved/1`);
+          const response = await axios.get(url);
+          setBooks(response.data);
+          const total = response.data.reduce((acc, curr) => acc + curr.revenue, 0);
           setTotalEarnings(total);
-        } else {
-          throw new Error("Failed to fetch earnings");
+        } catch (error) {
+          console.error('Error fetching books:', error);
         }
-      } catch (error) {
-        console.error("Error fetching earnings:", error);
-        toast.error("Failed to fetch earnings. Please try again later.");
-      }
     };
-
     fetchEarnings();
   }, []);
 
@@ -53,13 +46,13 @@ const MyEarnings = () => {
             </tr>
           </thead>
           <tbody>
-            {earnings.map((earning, index) => (
+            {books.map((book, index) => (
               <tr key={index}>
-                <td>{earning.bookId}</td>
-                <td>{earning.title}</td>
-                <td>{earning.genre}</td>
-                <td>${earning.price}</td>
-                <td>${earning.earning}</td>
+                <td>{book.id}</td>
+                <td>{book.title}</td>
+                <td>{book.genre}</td>
+                <td>${book.price}</td>
+                <td>${book.revenue}</td>
               </tr>
             ))}
           </tbody>

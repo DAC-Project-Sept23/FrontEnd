@@ -27,6 +27,7 @@ import Categories from "../pages/Categories";
 import UpdateEbook from "../components/Profile/UpdateEbook";
 import CheckoutForm from "../components/Payment/CheckoutForm";
 import Success from "../components/Payment/Success";
+import Cancel from "../components/Payment/Cancel";
 const Routers = () => {
   return (
     <div>
@@ -55,6 +56,7 @@ const Routers = () => {
       <Route path="/edit-book/:id" element={<UpdateEbook />} />
       <Route path="/buy/:id" element={<CheckoutForm />} />
       <Route path="/success" element={<Success />} />
+      <Route path="/cancel" element={<Cancel />} />
     </Routes>
 
     <ToastContainer/>

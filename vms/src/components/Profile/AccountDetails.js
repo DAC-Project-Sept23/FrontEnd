@@ -12,14 +12,10 @@ const AccountDetails = () => {
   const [originalUserDetails, setOriginalUserDetails] = useState({}); // Store original user details
   const [isEditable, setIsEditable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [userId, setUserId] = useState(null);
+  const userId = sessionStorage.getItem('userId');
   useEffect(() => {
-    // const userIdFromStorage = sessionStorage.getItem('userId');
-    const userIdFromStorage = 1;
-    if (userIdFromStorage) {
-      // setUserId(userIdFromStorage);
-      setUserId(1);
-      fetchUserDetails(userIdFromStorage);
+    if (userId) {
+      fetchUserDetails(userId);
     }
   }, []);
 
@@ -42,7 +38,7 @@ const AccountDetails = () => {
 
   const updateUserDetails = async () => {
     try {
-      const url = createUrl(`users/update/${userDetails.id}`)
+      const url = createUrl(`/users/${userId}`)
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -51,7 +47,7 @@ const AccountDetails = () => {
         body: JSON.stringify({
           firstName: userDetails.firstName,
           lastName: userDetails.lastName,
-          birthdate: userDetails.birthdate,
+          dob: userDetails.birthdate,
           id : userId
         }),
       });

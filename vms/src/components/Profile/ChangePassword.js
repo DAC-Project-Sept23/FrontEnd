@@ -11,36 +11,43 @@ const ChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
-
-    try {
-      //change it const
-    var id = sessionStorage.getItem('userId');
-    // delete this later
-    id = 1;
-      // const url = createUrl(`/users/UpdatePassword/${id}`);
-      const url = createUrl('/users/UpdatePassword');
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ oldPass: currentPassword, newPass: newPassword, userId : id }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to change password.');
+    if(newPassword === confirmPassword)
+    {
+      setIsLoading(true);
+      try {
+        const userId = sessionStorage.getItem('userId');
+        const url = createUrl(`/users/password/${userId}`);
+        const response = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ oldPass: currentPassword, newPass: newPassword, userId: userId }),
+        });
+      
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(errorMessage || 'Failed to change password.');
+        }
+      
+        toast.success('Password changed successfully!');
+        setIsLoading(false);
+        resetForm();
+      } catch (error) {
+        toast.error(error.message || 'Failed to change password.');
+        setIsLoading(false);
       }
-
-      toast.success('Password changed successfully!');
+    }
+    else
+    {
+      toast.error('New password not matching with confirm password.');
       setIsLoading(false);
       resetForm();
-    } catch (error) {
-      toast.error('Failed to change password.');
-      setIsLoading(false);
     }
+    
   };
 
   const resetForm = () => {
