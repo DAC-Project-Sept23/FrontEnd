@@ -7,16 +7,15 @@ const MyBookCollection = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    // Fetch user ID from session storage
     const userId = sessionStorage.getItem('userId');
-    // Fetch books bought by the user
     const fetchUserBooks = async () => {
       try {
-        const url = createUrl(`/user/${userId}/books`);
+        const url = createUrl(`/books/purchased/${userId}`);
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
-          setBooks(data.books);
+          setBooks(data.body);
+          console.log(data.body);
         } else {
           throw new Error('Error fetching user books');
         }
@@ -43,6 +42,7 @@ const MyBookCollection = () => {
               <th scope="col">Purchased on</th>
               <th scope="col">Author Name</th>
               {/* <th scope="col">Author ID</th> */}
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -53,7 +53,7 @@ const MyBookCollection = () => {
                 <td>{book.genre}</td>
                 <td>{book.price}</td>
                 <td>{book.purchasedOn}</td>
-                <td>{book.author.firstName} {book.author.lastName}</td>
+                <td>{book.firstName} {book.lastName}</td>
                 {/* <td>{book.authorId}</td> */}
                 <td>
                   {/* Link to navigate to ReadBook component with the book ID as a prop */}

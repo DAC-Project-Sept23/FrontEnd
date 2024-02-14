@@ -7,8 +7,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
 
   return (
     <div className="col-md-4 col-lg-2 col-xl-2 mb-4 col-6">
-      {/* <Link to={`/read/${id}`} className="text-decoration-none text-dark"> */}
-      <Link to={`/read/1`} className="text-decoration-none text-dark">
+      <Link to={`/read/${id}`} className="text-decoration-none text-dark">
         <div className="rounded position-relative fruite-item d-flex flex-column">
           <div className="fruite-img flex-grow-1">
             <img

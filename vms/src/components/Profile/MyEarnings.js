@@ -12,7 +12,9 @@ const MyEarnings = () => {
     const fetchEarnings = async () => {
       try {
         // Make a fetch request to get earnings of the current logged-in user
-        const response = await fetch("/api/earnings");
+        const userId = sessionStorage.getItem('userId');
+        const url = createUrl(`/api/earnings/${userId}`)
+        const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
           setEarnings(data.earnings);

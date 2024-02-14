@@ -25,7 +25,7 @@ const AccountDetails = () => {
 
   const fetchUserDetails = async (userId) => {
     try {
-      const url = createUrl(`/users/getUser/${userId}`)
+      const url = createUrl(`/users/${userId}`)
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();

@@ -21,7 +21,9 @@ const DisplayBook = ({ id }) => {
     // Fetch user's bought books
     const fetchUserBooks = async () => {
       try {
-        const response = await fetch('/api/user/books');
+        const userId = sessionStorage.getItem('userId');
+        const url = createUrl(`transaction/${userId}`);
+        const response = await fetch('transaction');
         if (response.ok) {
           const data = await response.json();
           setUserBooks(data.books);
@@ -48,11 +50,10 @@ const DisplayBook = ({ id }) => {
         if (response.ok) {
           const data = await response.json();
           toast.success('Success fetching ebook');
-          const fullEpubUrl = data.epubPath; // Assume backend provides single epub url
-
-          // Set epubUrl to the full path initially
-          // setEpubUrl(fullEpubUrl);
-          setEpubUrl('http://localhost:8080/books/epub_1707551478215.epub');
+          const fullEpubUrl = data.filePath;
+          const bookUrl = createUrl(`/books/${fullEpubUrl}`)
+          toast.error(bookUrl);
+          setEpubUrl(bookUrl);
         } else {
           console.error('Error fetching ebook details:', response.statusText);
           toast.error('Error fetching ebook details:', response.statusText);
@@ -102,7 +103,7 @@ const DisplayBook = ({ id }) => {
           locationChanged={handleLocationChanged} // Handle location change event
           url={epubUrl}
           getRendition={(rendition) => { readerRef.current = rendition; }} // Store reference to the reader
-          showToc={false}
+          showToc={true}
         />
       </div>
     </div>
