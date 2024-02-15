@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
 import { createUrl } from '../../utils/utils';
-const stripePromise = loadStripe('pk_test_51OjGITSBvU9vxunQbaaEC2HWWrkRD8j38IHajmW8K7rOMrJy1NXFWOTWJmnCA9J3sf5e3jJNlpxKzadMSyVNd6Vq00EZ90xdpb');
+const stripePromise = loadStripe('pk_test');
 
 const CheckoutForm = () => {
     const {id} = useParams();
