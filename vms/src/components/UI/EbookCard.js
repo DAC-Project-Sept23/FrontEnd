@@ -9,7 +9,7 @@ import readIcon from '../../assets/all-images/svgs/open-book-icon.svg';
 import star from '../../assets/all-images/svgs/star-icon.svg';
 import { createUrl } from '../../utils/utils';
 import '../../styles/EbookCard.css'
-const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, price, wish, bought, rating}) => {
+const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, price, wish, bought, rating, own}) => {
   const imageUrl = coverImageContent ? `data:image/jpeg;base64,${coverImageContent}` : 'placeholder_image_url.jpg';
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const [isBookHovered, setIsBookHovered] = useState(false);
@@ -90,7 +90,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
             </p>
             <div className="d-flex justify-content-between flex-lg-wrap">
               <p className="text-dark fs-5 fw-bold mb-0">{price}</p>
-              {!bought && (<Link
+              {!bought && !own && (<Link
                 onMouseEnter={() => setIsHeartHovered(true)}
                 onMouseLeave={() => setIsHeartHovered(false)}
                 onClick={toggleWishlist}
@@ -103,12 +103,16 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
                   width={25}
                 />
               </Link>)}
-               {(bought ? 
+               {((bought || own) ? 
                (
-                <Link to={`/read/${id}`}
+                <Link to={{
+                  pathname: `/read/${id}`,
+                  state: { bought: bought }
+                }}
                   onMouseEnter={() => setIsBookHovered(true)}
                   onMouseLeave={() => setIsBookHovered(false)}
                   style={{ transform: isBookHovered ? 'scale(1.2)' : 'scale(1)' }}
+                  
                 >
                  <img
                   src={readIcon}

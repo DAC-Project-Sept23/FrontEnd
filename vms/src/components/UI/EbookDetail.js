@@ -1,40 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import { useParams } from 'react-router-dom';
-// import Reviews from './Reviews';
-// import PostReview from './PostReview';
-// import DisplayBook from './DisplayBook';
-// import { createUrl } from "../../utils/utils";
-// import { toast } from 'react-toastify';
-
-// const EbookDetail = () => {
-//   const { id } = useParams();
-//   const [reviews, setReviews] = useState([]);
-
-//     useEffect(() => {
-//         const fetchReviews = async () => {
-//             try {
-//                 const url = createUrl(`/rating/${id}`);
-//                 const response = await fetch(url);
-//                 const data = await response.json();
-//                 setReviews(data);
-//             } catch (error) {
-//                 toast.error("Error fetching reviews.");
-//             }
-//         };
-
-//         fetchReviews();
-//     }, [id]);
-//   return (
-//     <>
-//     <DisplayBook id={id}/>
-//     <PostReview bookId={id}/>
-//     <Reviews reviews={reviews}/>
-//     </>
-//   );
-// };
-
-// export default EbookDetail;
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import Reviews from './Reviews';
@@ -45,10 +8,11 @@ import { toast } from 'react-toastify';
 
 const EbookDetail = () => {
   const { id } = useParams();
+  const { bought } = useParams();
   const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
-  // const loggedInUserId = sessionStorage.getItem('userId');
-  const loggedInUserId = 1;
+  const userId = sessionStorage.getItem('userId');
+  const isLoggedIn = sessionStorage.getItem('isLoggedIn');
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -111,18 +75,17 @@ const handleUpdate = async (updatedReview) => {
         console.error("Error updating review:", error);
         toast.error("Error updating review.");
     }
-};
-
-  const userHasPostedReview = reviews.some(review => review.userId === loggedInUserId);
+   };
+  const userHasPostedReview = reviews.some(review => review.userId == userId);
   const goBackToHome = () => {
     navigate(-1);
   };
   return (
     <div>
     {/* <button onClick={goBackToHome} className="btn btn-outline-dark m-2">Close</button> */}
-    <DisplayBook id={id}/>
-    {!userHasPostedReview && <PostReview bookId={id}/>}
-    <Reviews reviews={reviews} userId={loggedInUserId} onDelete={handleDelete} onUpdate={handleUpdate}/>
+    <DisplayBook id={id} bought={bought}/>
+    {isLoggedIn && !userHasPostedReview && <PostReview bookId={id}/>}
+    <Reviews reviews={reviews} userId={userId} onDelete={handleDelete} onUpdate={handleUpdate}/>
   </div>
   );
 };

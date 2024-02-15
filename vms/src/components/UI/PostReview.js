@@ -10,8 +10,7 @@ const PostReview = ({bookId}) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // const userId = sessionStorage.getItem('userId');
-        const userId = 1;
+        const userId = sessionStorage.getItem('userId');
         // Validate if review or rating is empty
         if (!review.trim() || rating === 0) {
             toast.error('Please provide a review and rating.');
@@ -33,6 +32,7 @@ const PostReview = ({bookId}) => {
                 toast.success('Review submitted successfully!');
                 // Reset form fields or perform any other necessary actions
                 handleReset();
+                window.location.reload();
             } else {
                 throw new Error('Failed to submit review.');
             }
@@ -53,8 +53,8 @@ const PostReview = ({bookId}) => {
     };
     const handleReviewChange = (event) => {
         const text = event.target.value;
-        if (text.length > 500) {
-            toast.warn('Maximum review length exceeded (500 characters).');
+        if (text.length > 255) {
+            toast.warn('Maximum review length exceeded (255 characters).');
         }
         else
         {

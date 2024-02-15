@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const BuyEbook = () => {
+const BuyEbook = ({id}) => {
   const navigate = useNavigate();
 
   const handleSignInClick = () => {
-    navigate('/buy'); // Redirect to sign-in page
+    navigate(`/buy/${id}`);
   };
 
   const goBackToHome = () => {

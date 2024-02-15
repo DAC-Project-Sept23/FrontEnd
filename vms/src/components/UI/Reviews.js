@@ -4,15 +4,12 @@ import Review from "./Review"; // Assuming Review component is in a separate fil
 
 const Reviews = ({ reviews, userId, onDelete, onUpdate }) => {
     const handleDelete = (review) => {
-        // Call onDelete function with the review to be deleted
         onDelete(review);
     };
 
     const handleUpdate = (review) => {
-        // Call onUpdate function with the review to be updated
         onUpdate(review);
     };
-
     return (
         <div className="container col-lg-4">
             {reviews && reviews.length > 0 ? (
