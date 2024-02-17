@@ -3,7 +3,7 @@ import { createUrl } from "../../utils/utils";
 import { toast } from "react-toastify";
 import { Modal, Button } from 'react-bootstrap'; // Import Modal and Button from react-bootstrap
 import axios from 'axios';
-
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const MyEarnings = () => {
   const [books, setBooks] = useState([]);
   const [totalEarnings, setTotalEarnings] = useState(0);
@@ -13,9 +13,12 @@ const MyEarnings = () => {
     const fetchEarnings = async () => {
         const userId = sessionStorage.getItem('userId');
         try {
-          // const url = createUrl(`/books/user/approved/${userId}`);
-          const url = createUrl(`/books/user/approved/1`);
-          const response = await axios.get(url);
+          const url = createUrl(`/books/user/approved/${userId}`);
+          const response = await axios.get(url, {
+            headers: {
+              Authorization: getAuthorizationHeader(),
+            },
+          });
           setBooks(response.data);
           const total = response.data.reduce((acc, curr) => acc + curr.revenue, 0);
           setTotalEarnings(total);

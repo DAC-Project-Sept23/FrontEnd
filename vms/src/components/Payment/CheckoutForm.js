@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
 import { createUrl } from '../../utils/utils';
-const stripePromise = loadStripe('pk_test');
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
+const stripePromise = loadStripe('');
 
 const CheckoutForm = () => {
     const {id} = useParams();
@@ -12,17 +13,17 @@ const CheckoutForm = () => {
         const userId = sessionStorage.getItem('userId');
         const url = createUrl('/create-checkout-session');
         const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          bookId: id,
-          quantity: 1,
-        //   userId : userId,
-          userId : 2,
-        }),
-      });
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: getAuthorizationHeader(),
+          },
+          body: JSON.stringify({
+            bookId: id,
+            quantity: 1,
+            userId: userId,
+          }),
+        });
       
       if (!response.ok) {
         const error = await response.json();

@@ -4,7 +4,7 @@ import { createUrl } from '../../utils/utils';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Modal, Button } from 'react-bootstrap'; // Import modal components from React Bootstrap
-
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const MyWork = () => {
   const [books, setBooks] = useState([]);
   const [statusFilter, setStatusFilter] = useState('approved');
@@ -17,9 +17,13 @@ const MyWork = () => {
 
   const fetchBooks = async () => {
     try {
-      const userId = 1; // Assuming userId retrieval is correct
+      const userId = sessionStorage.getItem('userId');
       const url = createUrl(`/books/user/${statusFilter}/${userId}`);
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
+      });
       setBooks(response.data);
     } catch (error) {
       console.error('Error fetching books:', error);
@@ -44,7 +48,11 @@ const MyWork = () => {
   const handleConfirmDelete = async () => {
     try {
       const url = createUrl(`/books/delete/${bookToDelete}`);
-      await axios.delete(url);
+      const response = await axios.delete(url, {
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
+      });
       setShowModal(false);
       fetchBooks();
       toast.success('Book deleted successfully.');

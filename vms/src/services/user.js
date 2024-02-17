@@ -69,7 +69,7 @@ export async function loginUser(email, password) {
     const isLoggedIn = response.data.isLoggedIn;
 
     sessionStorage.setItem("token" , token);
-    sessionStorage.setItem("userRoles", userRoles);
+    sessionStorage.setItem("userRole", userRoles);
     sessionStorage.setItem("userId", userId);
     sessionStorage.setItem("isLoggedIn", isLoggedIn);
     return response.data

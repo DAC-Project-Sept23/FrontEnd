@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import DisplayBook from '../UI/DisplayBook';
 import { createUrl } from '../../utils/utils';
 import { toast } from 'react-toastify';
+import { getAuthorizationHeader } from '../../utils/jwtUtil'; 
 const ProcessEbook = () => {
   const { id } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [comment, setComment] = useState('');
   const [status, setStatus] = useState('APPROVED');
 
@@ -16,13 +17,13 @@ const ProcessEbook = () => {
 
   const handleSubmit = async () => {
     try {
-      // const adminId = sessionStorage.getItem('userId');
-      const adminId = 1;
+      const adminId = sessionStorage.getItem('userId');
       const url = createUrl("/admin/process");
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: getAuthorizationHeader(),
         },
         body: JSON.stringify({
           bookId: id,
@@ -34,7 +35,8 @@ const ProcessEbook = () => {
   
       if (response.ok) {
         toast.success('Ebook processing successful');
-        // Optionally, perform navigation or any other action after successful submission
+        navigate(-1);
+
       } else {
         toast.error('Failed to process ebook');
       }

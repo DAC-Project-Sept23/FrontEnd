@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom for navigation
+import { Link } from 'react-router-dom';
 import { createUrl } from '../../utils/utils';
 import { toast } from 'react-toastify';
-
+import { getAuthorizationHeader } from '../../utils/jwtUtil'; 
 const PendingForApproval = () => {
   // State to store the array of pending approval books
   const [books, setBooks] = useState([]);
@@ -12,14 +12,19 @@ const PendingForApproval = () => {
     try {
       // Make a GET request to fetch pending books from the backend
       const url = createUrl('/books/pending');
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getAuthorizationHeader(),
+        },
+      });
       // Update state with the fetched pending books
       const data = await response.json();
       setBooks(data);
     } catch (error) {
-      console.error('Error fetching pending books:', error);
-      // You might want to handle the error here, for example, displaying a message to the user
-      toast.error('Error fetching pending books. Please try again later.');
+      // console.error('Error fetching pending books:', error);
+      // toast.error('Error fetching pending books. Please try again later.');
     }
   };
 

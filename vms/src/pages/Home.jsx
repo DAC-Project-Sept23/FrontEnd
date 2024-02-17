@@ -16,6 +16,7 @@ const Home = () => {
   //delete this later
   sessionStorage.setItem('isLoggedIn', true);
   sessionStorage.setItem('userId', 2);
+  sessionStorage.setItem("userRole", 'ADMIN');
   return (
     <div className="container">
     <Helmet title="Home"/>

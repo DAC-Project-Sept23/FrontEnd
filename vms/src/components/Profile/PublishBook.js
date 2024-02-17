@@ -4,6 +4,7 @@ import { createUrl, log } from '../../utils/utils';
 import { toast } from 'react-toastify';
 import '../../styles/PublishBook.css'
 import TermsModal from './TermsModel';
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const PublishBook = () => {
   const epubFileInputRef = useRef(null);
   const coverImageInputRef = useRef(null);
@@ -26,6 +27,9 @@ const PublishBook = () => {
       const url = createUrl('/books/upload');
       const response = await fetch(url, {
         method: 'POST',
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
         body: formData,
       });
 
@@ -48,10 +52,7 @@ const PublishBook = () => {
   const [userId, setUserId] = useState('');
 
   useEffect(() => {
-    //change it const
-    var userIdFromStorage = sessionStorage.getItem('userId');
-    // delete this later
-    userIdFromStorage = 1;
+    const userIdFromStorage = sessionStorage.getItem('userId');
     if (userIdFromStorage) {
       setUserId(userIdFromStorage);
     }

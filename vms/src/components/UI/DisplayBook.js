@@ -17,17 +17,50 @@ const DisplayBook = ({ id, bought }) => {
   const [ownBooks, setOwnBooks] = useState([]);
   const [ownBook, setOwnBook] = useState(false);
   const userId = sessionStorage.getItem('userId');
+  
+  // useEffect(() => {
+  //   setIsLoggedIn(sessionStorage.getItem('isLoggedIn') === 'true');
+  //   const fetchUserBooks = async () => {
+  //     try {
+  //       const url = createUrl(`/transaction/${userId}`);
+  //       const response = await fetch(url);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setUserBooks(data);
+  //         // setHasBoughtBook(data.includes(parseInt(id, 10)));
+  //         setHasBoughtBook(data.includes(id));
+  //         console.log(data);
+  //         console.log('id' + id);
+  //         toast.info(hasBoughtBook);
+  //         console.log(hasBoughtBook);
+  //       } else {
+  //         console.error('Error fetching user books:', response.statusText);
+  //         toast.error('Error fetching user books:', response.statusText);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error during fetchUserBooks:', error);
+  //       toast.error('Error during fetchUserBooks:', error);
+  //     }
+  //   };
+
+  //   if (isLoggedIn) {
+  //     fetchUserBooks();
+  //   }
+  // }, [isLoggedIn]);
   useEffect(() => {
     setIsLoggedIn(sessionStorage.getItem('isLoggedIn') === 'true');
     const fetchUserBooks = async () => {
       try {
-        const userId = sessionStorage.getItem('userId');
         const url = createUrl(`/transaction/${userId}`);
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
           setUserBooks(data);
-          setHasBoughtBook(data.includes(parseInt(id, 10)));
+          console.log('Data array:', data);
+          console.log('Book id:', id);
+          const hasBought = data.some(item => item == parseInt(id, 10));
+          setHasBoughtBook(hasBought);
+          console.log(hasBoughtBook);
         } else {
           console.error('Error fetching user books:', response.statusText);
           toast.error('Error fetching user books:', response.statusText);
@@ -37,11 +70,13 @@ const DisplayBook = ({ id, bought }) => {
         toast.error('Error during fetchUserBooks:', error);
       }
     };
-
+  
     if (isLoggedIn) {
       fetchUserBooks();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, id]);
+  
+  
   
   useEffect(() => {
     const fetchEbookDetails = async () => {
@@ -95,12 +130,12 @@ const DisplayBook = ({ id, bought }) => {
     setPageCount(prevCount => prevCount + 1);
   }
   if (!isLoggedIn) {
-    if (pageCount >= 5) {
+    if (pageCount >= 10) {
       return <SignInPrompt />;
     }
   }
-  if (isLoggedIn && !(hasBoughtBook || ownBook)) {
-    if (pageCount >= 5) {
+  if (isLoggedIn && (sessionStorage.getItem('userRole') == 'ADMIN' || !(hasBoughtBook || ownBook))) {
+    if (pageCount >= 10) {
     return <BuyEbook id={id} />;
     }
   }
@@ -119,7 +154,7 @@ const DisplayBook = ({ id, bought }) => {
           locationChanged={handleLocationChanged} // Handle location change event
           url={epubUrl}
           getRendition={(rendition) => { readerRef.current = rendition; }} // Store reference to the reader
-          showToc={hasBoughtBook || ownBook}
+          showToc={sessionStorage.getItem('userRole') == 'ADMIN' || hasBoughtBook || ownBook}
         />
       </div>
     </div>

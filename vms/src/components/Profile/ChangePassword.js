@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { createUrl, log } from '../../utils/utils';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../styles/ChangePassword.css';
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -24,6 +25,7 @@ const ChangePassword = () => {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: getAuthorizationHeader(),
           },
           body: JSON.stringify({ oldPass: currentPassword, newPass: newPassword, userId: userId }),
         });

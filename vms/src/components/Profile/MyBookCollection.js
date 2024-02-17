@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createUrl } from '../../utils/utils';
 import { toast } from 'react-toastify';
-
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const MyBookCollection = () => {
   const [books, setBooks] = useState([]);
 
@@ -11,17 +11,22 @@ const MyBookCollection = () => {
     const fetchUserBooks = async () => {
       try {
         const url = createUrl(`/books/purchased/${userId}`);
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            Authorization: getAuthorizationHeader(),
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setBooks(data.body);
-          console.log(data.body);
+          // console.log(data.body);
         } else {
-          throw new Error('Error fetching user books');
+          // console.error('Error fetching user books:', error);
+        // toast.error('Error fetching user books. Please try again later.');
         }
       } catch (error) {
-        console.error('Error fetching user books:', error);
-        toast.error('Error fetching user books. Please try again later.');
+        // console.error('Error fetching user books:', error);
+        // toast.error('Error fetching user books. Please try again later.');
       }
     };
 

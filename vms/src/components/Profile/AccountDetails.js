@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { createUrl } from '../../utils/utils';
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
+
 const AccountDetails = () => {
   const [userDetails, setUserDetails] = useState({
     email: '',
@@ -22,7 +24,11 @@ const AccountDetails = () => {
   const fetchUserDetails = async (userId) => {
     try {
       const url = createUrl(`/users/${userId}`)
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setUserDetails(data);
@@ -43,6 +49,7 @@ const AccountDetails = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization:  getAuthorizationHeader(),
         },
         body: JSON.stringify({
           firstName: userDetails.firstName,

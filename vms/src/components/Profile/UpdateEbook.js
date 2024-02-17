@@ -5,7 +5,7 @@ import axios from 'axios';
 import { createUrl } from '../../utils/utils';
 import { toast } from 'react-toastify';
 import TermsModal from './TermsModel';
-
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const UpdateEbook = () => {
   const { id } = useParams(); // Get the bookId from URL params
   const [showTermsModal, setShowTermsModal] = useState(false);
@@ -40,7 +40,11 @@ const UpdateEbook = () => {
   const fetchBookData = async () => {
     try {
       const url = createUrl(`/books/read/${id}`);
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
+      });
       setBookData(response.data);
       toast.success("Fetched book successfully");
     } catch (error) {
@@ -57,7 +61,11 @@ const UpdateEbook = () => {
     // Make PUT request to update the ebook
     try {
       const url = createUrl(`/books/${id}`);
-      const response = await axios.put(url, bookData);
+      const response = await axios.put(url, bookData, {
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
+      });
       if (response.status === 200) {
         toast.success('Ebook updated successfully');
       } else {

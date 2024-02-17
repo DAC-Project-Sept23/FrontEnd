@@ -3,10 +3,10 @@ import axios from 'axios';
 import { createUrl } from '../../utils/utils';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const Wishlist = () => {
   const [books, setBooks] = useState([]);
-//   const userId = sessionStorage.getItem('userId');
-  const userId = 2;
+  const userId = sessionStorage.getItem('userId');
   useEffect(() => {
     fetchWishlist();
   }, []);
@@ -14,7 +14,11 @@ const Wishlist = () => {
   const fetchWishlist = async () => {
     try {
       const url = createUrl(`/wishlist/${userId}`);
-      const response = await axios.get(url);
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
+      });
       setBooks(response.data);
     } catch (error) {
       console.error('Error fetching wishlist:', error);
@@ -24,7 +28,15 @@ const Wishlist = () => {
   const removeBookFromWishlist = async (bookId) => {
     try {
       const url = createUrl('/wishlist');
-      await axios.delete(url, { data: { bookId : bookId, userId : userId } });
+      const response = await axios.delete(url, {
+        headers: {
+          Authorization: getAuthorizationHeader(),
+        },
+        data: {
+          bookId: bookId,
+          userId: userId,
+        },
+      });
       // After removing the book from wishlist, refetch the wishlist
       fetchWishlist();
       toast.success("Removed from wishlist.")
