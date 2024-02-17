@@ -9,6 +9,7 @@ import readIcon from '../../assets/all-images/svgs/open-book-icon.svg';
 import star from '../../assets/all-images/svgs/star-icon.svg';
 import { createUrl } from '../../utils/utils';
 import '../../styles/EbookCard.css'
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, price, wish, bought, rating, own}) => {
   const imageUrl = coverImageContent ? `data:image/jpeg;base64,${coverImageContent}` : 'placeholder_image_url.jpg';
   const [isHeartHovered, setIsHeartHovered] = useState(false);
@@ -28,6 +29,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: getAuthorizationHeader(),
             },
             body: JSON.stringify({
               userId: userId,
@@ -40,6 +42,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: getAuthorizationHeader(),
             },
             body: JSON.stringify({
               userId: userId,
@@ -90,7 +93,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
             </p>
             <div className="d-flex justify-content-between flex-lg-wrap">
               <p className="text-dark fs-5 fw-bold mb-0">{price}</p>
-              {!bought && !own && (<Link
+              {!bought && !own && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN') &&(<Link
                 onMouseEnter={() => setIsHeartHovered(true)}
                 onMouseLeave={() => setIsHeartHovered(false)}
                 onClick={toggleWishlist}
@@ -103,7 +106,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
                   width={25}
                 />
               </Link>)}
-               {((bought || own) ? 
+               {((bought || own || (sessionStorage.getItem('userRole') === 'ROLE_ADMIN')) ? 
                (
                 <Link to={{
                   pathname: `/read/${id}`,

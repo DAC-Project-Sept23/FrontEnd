@@ -3,15 +3,14 @@ import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { createUrl } from '../../utils/utils';
 import { getAuthorizationHeader } from '../../utils/jwtUtil';
-
 const AccountDetails = () => {
   const [userDetails, setUserDetails] = useState({
     email: '',
     firstName: '',
     lastName: '',
-    birthdate: '',
+    dob: '',
   });
-  const [originalUserDetails, setOriginalUserDetails] = useState({}); // Store original user details
+  const [originalUserDetails, setOriginalUserDetails] = useState({});
   const [isEditable, setIsEditable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const userId = sessionStorage.getItem('userId');
@@ -25,6 +24,7 @@ const AccountDetails = () => {
     try {
       const url = createUrl(`/users/${userId}`)
       const response = await fetch(url, {
+        method: 'GET',
         headers: {
           Authorization: getAuthorizationHeader(),
         },
@@ -44,7 +44,7 @@ const AccountDetails = () => {
 
   const updateUserDetails = async () => {
     try {
-      const url = createUrl(`/users/${userId}`)
+      const url = createUrl(`/users/details/${userId}`)
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -54,7 +54,7 @@ const AccountDetails = () => {
         body: JSON.stringify({
           firstName: userDetails.firstName,
           lastName: userDetails.lastName,
-          dob: userDetails.birthdate,
+          dob: userDetails.dob,
           id : userId
         }),
       });
@@ -124,10 +124,17 @@ const AccountDetails = () => {
 
         <Form.Group controlId="birthdate">
           <Form.Label>Birthdate:</Form.Label>
-          <Form.Control
+          {/* <Form.Control
             type="date"
             value={userDetails.dob}
             onChange={(e) => setUserDetails({ ...userDetails, birthdate: e.target.value })}
+            readOnly={!isEditable}
+            required
+          /> */}
+          <Form.Control
+            type="date"
+            value={userDetails.dob}
+            onChange={(e) => setUserDetails({ ...userDetails, dob: e.target.value })}
             readOnly={!isEditable}
             required
           />

@@ -34,14 +34,14 @@ const ProcessEbook = () => {
       });
   
       if (response.ok) {
-        toast.success('Ebook processing successful');
-        navigate(-1);
+        toast.success('Ebook processing successful.');
+        // navigate(-1);
 
       } else {
-        toast.error('Failed to process ebook');
+        // toast.error('Failed to process ebook');
       }
     } catch (error) {
-      toast.error('Error processing ebook:', error);
+      // toast.error('Error processing ebook:', error);
       // Optionally, handle errors here (e.g., display an error message)
     }
   };
@@ -62,8 +62,8 @@ const ProcessEbook = () => {
                 <Form.Group controlId="status">
                   <Form.Label>Status:</Form.Label>
                   <Form.Control as="select" value={status} onChange={handleStatusChange}>
-                    <option value="APPROVED">Approved</option>
-                    <option value="REJECTED">Rejected</option>
+                    <option value="APPROVED">Approve</option>
+                    <option value="REJECTED">Reject</option>
                   </Form.Control>
                 </Form.Group>
 

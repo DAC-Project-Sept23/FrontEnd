@@ -12,7 +12,7 @@ import PendingForApproval from '../components/Admin/PendingForApproval';
 import ProcessedByMe from '../components/Admin/ProcessedByMe';
 
 const Profile = () => {
-  const [selectedComponent, setSelectedComponent] = useState(null);
+  const [selectedComponent, setSelectedComponent] = useState('Dashboard');
 
   const renderComponent = () => {
     switch (selectedComponent) {
@@ -57,12 +57,12 @@ const Profile = () => {
             >
               Change Password
             </Nav.Link>
-            <Nav.Link
+            {/* <Nav.Link
               className={selectedComponent === 'Settings' ? 'active' : ''}
               onClick={() => setSelectedComponent('Settings')}
             >
               Settings
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link
               className={selectedComponent === 'PendingForApproval' ? 'active' : ''}
               onClick={() => setSelectedComponent('PendingForApproval')}

@@ -5,7 +5,7 @@ import PostReview from './PostReview';
 import DisplayBook from './DisplayBook';
 import { createUrl } from "../../utils/utils";
 import { toast } from 'react-toastify';
-
+import { getAuthorizationHeader } from "../../utils/jwtUtil";
 const EbookDetail = () => {
   const { id } = useParams();
   const { bought } = useParams();
@@ -18,7 +18,11 @@ const EbookDetail = () => {
     const fetchReviews = async () => {
       try {
         const url = createUrl(`/rating/${id}`);
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            Authorization: getAuthorizationHeader(),
+          },
+        });
         const data = await response.json();
         setReviews(data);
       } catch (error) {
@@ -37,7 +41,8 @@ const EbookDetail = () => {
         await fetch(url, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: getAuthorizationHeader(),
             },
             body: JSON.stringify(reviewToDelete)
         });
@@ -60,7 +65,8 @@ const handleUpdate = async (updatedReview) => {
         await fetch(url, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: getAuthorizationHeader(),
             },
             body: JSON.stringify(updatedReview)
         });
@@ -84,7 +90,7 @@ const handleUpdate = async (updatedReview) => {
     <div>
     {/* <button onClick={goBackToHome} className="btn btn-outline-dark m-2">Close</button> */}
     <DisplayBook id={id} bought={bought}/>
-    {isLoggedIn && !userHasPostedReview && <PostReview bookId={id}/>}
+    {isLoggedIn && !userHasPostedReview && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN') && <PostReview bookId={id}/>}
     <Reviews reviews={reviews} userId={userId} onDelete={handleDelete} onUpdate={handleUpdate}/>
   </div>
   );

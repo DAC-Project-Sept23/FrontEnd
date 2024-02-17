@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { loginUser as loginUserApi } from '../services/user';
-
+import { createUrl } from '../utils/utils';
+import axios from 'axios';
 function LoginUser() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,37 +15,40 @@ function LoginUser() {
       toast.error('Please enter email and password');
       return;
     }
-
     try {
-      const response = await loginUserApi(email, password);
-
-        if (response) {
-          
-          // Check if userRoles exist in the response and handle navigation based on roles
-          if (response.userRoles === 'USER') {
-            navigate('/'); // Navigate to home page for users
-           // window.location.reload();
-            toast.success('USER login Successful')
-          } else if (response.userRoles === 'ADMIN') {
-            navigate('/admin'); // Navigate to admin page for admins
-            //window.location.reload();
-            toast.success('Welcome Admin!')
-          } else if (response.userRoles === 'SALESPERSON') {
-            navigate('/salesperson');
-            toast.success('Salesperson Login Successfull') 
-           // window.location.reload();
-          } else {
-            toast.error('Invalid role');
-          }
+      const url = createUrl('/users/authenticate');
+      const body = {
+        email,
+        password,
+      };
+      const response = await axios.post(url, body);
+      if (response.data.isLoggedIn) {
+        const token = response.data.jwt;
+        const userRoles = response.data.userRoles;
+        const userId = response.data.userId;
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("userRole", userRoles);
+        sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("isLoggedIn", true);
+        console.log(sessionStorage.getItem("token") + " " + sessionStorage.getItem("userRole") + " " + sessionStorage.getItem("userId") + sessionStorage.getItem("isLoggedIn"));
+        if (userRoles === 'ROLE_USER') {
+          navigate('/profile');
+          toast.success('User login successful');
+        } else if (userRoles === 'ROLE_ADMIN') {
+          navigate('/admin');
+          toast.success('Welcome Admin!');
         } else {
-          toast.error('Invalid email or password');
+          toast.error('Invalid role');
         }
+      } else {
+        toast.error('Invalid email or password');
+      }
     } catch (error) {
-      console.error(error);
-      toast.error('An error occurred during login');
+      // console.error(error);
+      toast.error('Invalid email or password');
     }
   };
-
+  
   return (
     <div>
       <h1 style={{ textAlign: 'center', margin: 10 }}>Login</h1>

@@ -33,6 +33,11 @@ const PendingForApproval = () => {
     fetchPendingBooks();
   }, []);
 
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).replace(/,/g, '');
+  };
+
   return (
     <div className="container">
       <h1 className="my-4">Pending Books For Approval</h1>
@@ -46,7 +51,7 @@ const PendingForApproval = () => {
             <th scope="col">Price</th>
             <th scope="col">Added On</th>
             <th scope="col">Author Name</th>
-            <th scope="col">Author ID</th>
+            {/* <th scope="col">Author ID</th> */}
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -58,9 +63,9 @@ const PendingForApproval = () => {
               <td>{book.title}</td>
               <td>{book.genre}</td>
               <td>{book.price}</td>
-              <td>{book.addedOn}</td>
+              <td>{formatTimestamp(book.addedOn)}</td>
               <td>{book.firstName + " " + book.lastName}</td>
-              <td>{book.authorId}</td>
+              {/* <td>{book.authorId}</td> */}
               <td>
                 {/* Link to navigate to ProcessEbook component with the book ID as a prop */}
                 <Link to={`/process/${book.id}`} className="btn btn-primary btn-sm">Process</Link>

@@ -5,8 +5,10 @@ import { createUrl } from '../../utils/utils';
 import { toast } from 'react-toastify';
 import SignInPrompt from './SignInPrompt'; // Import the SignInPrompt component
 import BuyEbook from './BuyEbook';
+import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const DisplayBook = ({ id, bought }) => {
   const [epubUrl, setEpubUrl] = useState(null);
+  const [ebook, setEbook] = useState([]);
   const readerRef = useRef();
   const [location, setLocation] = useState(null);
   const [pageCount, setPageCount] = useState(0); // Counter for page count
@@ -17,42 +19,18 @@ const DisplayBook = ({ id, bought }) => {
   const [ownBooks, setOwnBooks] = useState([]);
   const [ownBook, setOwnBook] = useState(false);
   const userId = sessionStorage.getItem('userId');
+  const [coverImage, setCoverImage] = useState("");
   
-  // useEffect(() => {
-  //   setIsLoggedIn(sessionStorage.getItem('isLoggedIn') === 'true');
-  //   const fetchUserBooks = async () => {
-  //     try {
-  //       const url = createUrl(`/transaction/${userId}`);
-  //       const response = await fetch(url);
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setUserBooks(data);
-  //         // setHasBoughtBook(data.includes(parseInt(id, 10)));
-  //         setHasBoughtBook(data.includes(id));
-  //         console.log(data);
-  //         console.log('id' + id);
-  //         toast.info(hasBoughtBook);
-  //         console.log(hasBoughtBook);
-  //       } else {
-  //         console.error('Error fetching user books:', response.statusText);
-  //         toast.error('Error fetching user books:', response.statusText);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error during fetchUserBooks:', error);
-  //       toast.error('Error during fetchUserBooks:', error);
-  //     }
-  //   };
-
-  //   if (isLoggedIn) {
-  //     fetchUserBooks();
-  //   }
-  // }, [isLoggedIn]);
   useEffect(() => {
     setIsLoggedIn(sessionStorage.getItem('isLoggedIn') === 'true');
     const fetchUserBooks = async () => {
       try {
         const url = createUrl(`/transaction/${userId}`);
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            Authorization: getAuthorizationHeader(),
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setUserBooks(data);
@@ -71,7 +49,7 @@ const DisplayBook = ({ id, bought }) => {
       }
     };
   
-    if (isLoggedIn) {
+    if (isLoggedIn && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN')) {
       fetchUserBooks();
     }
   }, [isLoggedIn, id]);
@@ -82,10 +60,16 @@ const DisplayBook = ({ id, bought }) => {
     const fetchEbookDetails = async () => {
       try {
         const url = createUrl(`/books/read/${id}`);
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            Authorization: getAuthorizationHeader(),
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           // toast.success('Success fetching ebook');
+          setEbook(data);
+          setCoverImage(data.coverImageContent ? `data:image/jpeg;base64,${data.coverImageContent}` : 'placeholder_image_url.jpg')
           const fullEpubUrl = data.filePath;
           const bookUrl = createUrl(`/books/${fullEpubUrl}`)
           // toast.error(bookUrl);
@@ -107,7 +91,11 @@ const DisplayBook = ({ id, bought }) => {
     const fetchOwnBooks = async () => {
       try {
         const url = createUrl(`/books/own/${userId}`);
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            Authorization: getAuthorizationHeader(),
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setOwnBooks(data);
@@ -122,21 +110,28 @@ const DisplayBook = ({ id, bought }) => {
         toast.error('Error fetching own list');
       }
     };
-    if(isLoggedIn)
+    if(isLoggedIn && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN'))
     fetchOwnBooks();
   }, [isLoggedIn]);
 
   const handleLocationChanged = (newLocation) => {
     setPageCount(prevCount => prevCount + 1);
+    setLocation(newLocation);
   }
   if (!isLoggedIn) {
-    if (pageCount >= 10) {
+    if (pageCount >= 5) {
       return <SignInPrompt />;
     }
   }
-  if (isLoggedIn && (sessionStorage.getItem('userRole') == 'ADMIN' || !(hasBoughtBook || ownBook))) {
-    if (pageCount >= 10) {
-    return <BuyEbook id={id} />;
+  if (isLoggedIn){
+    if(!(sessionStorage.getItem('userRole') === 'ROLE_ADMIN'))
+    {
+      if(!(hasBoughtBook || ownBook))
+      {
+        if (pageCount >= 5) {
+          return <BuyEbook id={id} />;
+          }
+      }
     }
   }
   const goBackToHome = () => {
@@ -144,20 +139,39 @@ const DisplayBook = ({ id, bought }) => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh' }}>
-      <h2>Ebook Detail</h2>
+    <>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '100vh', marginTop: '50px' }}>
+      {/* <h2>Ebook</h2> */}
       <button onClick={goBackToHome} className="btn btn-outline-dark m-2">Close</button>
-      <div style={{ height: '100vh', width: '75vh' }}>
+      <div className="col-sm-12"
+      style={{ height: '100vh', width: '100%' }}
+      allow="fullscreen"
+      allow-scripts>
         <ReactReader
-          title="Ebook Title" // Pass your ebook title here
+          title={ebook.title}// Pass your ebook title here 
           location={location}
           locationChanged={handleLocationChanged} // Handle location change event
           url={epubUrl}
           getRendition={(rendition) => { readerRef.current = rendition; }} // Store reference to the reader
-          showToc={sessionStorage.getItem('userRole') == 'ADMIN' || hasBoughtBook || ownBook}
+          showToc={sessionStorage.getItem('userRole') == 'ROLE_ADMIN' || hasBoughtBook || ownBook}
+          epubOptions={{
+            allowPopups: true,
+            allowScriptedContent: true,
+          }}
         />
       </div>
     </div>
+    <div className='container' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+    <img
+      src={coverImage}
+      className="img-fluid rounded-top"
+      alt={`Cover for ${ebook.title}`}
+      height={250}
+      width={'20%'}
+    />
+    {ebook.firstName + " " + ebook.lastName}
+  </div>
+  </>
   );
 };
 

@@ -29,12 +29,10 @@ const ChangePassword = () => {
           },
           body: JSON.stringify({ oldPass: currentPassword, newPass: newPassword, userId: userId }),
         });
-      
         if (!response.ok) {
           const errorMessage = await response.text();
           throw new Error(errorMessage || 'Failed to change password.');
         }
-      
         toast.success('Password changed successfully!');
         setIsLoading(false);
         resetForm();
@@ -47,7 +45,7 @@ const ChangePassword = () => {
     {
       toast.error('New password not matching with confirm password.');
       setIsLoading(false);
-      resetForm();
+      // resetForm();s
     }
     
   };

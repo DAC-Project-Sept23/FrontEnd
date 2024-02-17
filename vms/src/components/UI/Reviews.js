@@ -11,7 +11,7 @@ const Reviews = ({ reviews, userId, onDelete, onUpdate }) => {
         onUpdate(review);
     };
     return (
-        <div className="container col-lg-4">
+        <div className="container col-lg-4" style={{ justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
             {reviews && reviews.length > 0 ? (
                 <div>
                     <h1>Reviews</h1>
@@ -20,7 +20,7 @@ const Reviews = ({ reviews, userId, onDelete, onUpdate }) => {
                     ))}
                 </div>
             ) : (
-                <h1>Be the first one to add a review!</h1>
+                !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN') && <h1>Be the first one to add a review!</h1>
             )}
         </div>
     );

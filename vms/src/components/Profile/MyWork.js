@@ -102,11 +102,11 @@ const MyWork = () => {
                 <td>
                   <Link to={`/read/${book.id}`} className="btn btn-primary btn-sm">View Details</Link>
                   {"  "}
-                  {(book.status === 'APPROVED' || book.status === 'REJECTED') && (
+                  {(book.status === 'REJECTED') && (
                     <Link to={`/edit-book/${book.id}`} className="btn btn-secondary btn-sm">Edit</Link>
                   )}
                   {"  "}
-                  {(book.status === 'APPROVED' || book.status === 'REJECTED') && (
+                  {(book.status === 'APPROVED' || book.status === 'REJECTED' || book.status === "PENDING") && (
                     <button onClick={() => handleDeleteClick(book.id)} className="btn btn-danger btn-sm">Delete</button>
                   )}
                 </td>

@@ -28,37 +28,72 @@ import UpdateEbook from "../components/Profile/UpdateEbook";
 import CheckoutForm from "../components/Payment/CheckoutForm";
 import Success from "../components/Payment/Success";
 import Cancel from "../components/Payment/Cancel";
+import ProtectedRoute from "./ProtectedRoute";
+
 const Routers = () => {
+
   return (
     <div>
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path="/cars" element={<CarListing />} />
-      <Route path="/carDetails/:id" element={<CarDetails />} />
-      <Route path="/finance" element={<FinancePage />}/>
-      <Route path="/services" element={< Services/>}/>   
-      <Route path="/test_drive" element={<TestDrivePage/>}/>
       <Route path="/contact" element={<Contact />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<RegisterUser />} />
-      <Route path="/booking/:id" element={<BookingPage />} />
-      <Route path="/book_service/:id/:name" element={<BookService />} />
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/salesperson" element={<Salesperson />} />
-      <Route path="/addcar" element={<AddCar />} />
       <Route path="/read/:id" element={<EbookDetail />} />
-      <Route path="/process/:id" element={<ProcessEbook />} />
-      <Route path="/profile" element={<Profile />} />
       <Route path="/categories" element={<Categories />} />
-      <Route path="/edit-book/:id" element={<UpdateEbook />} />
-      <Route path="/buy/:id" element={<CheckoutForm />} />
-      <Route path="/success" element={<Success />} />
-      <Route path="/cancel" element={<Cancel />} />
-    </Routes>
-
+      <Route
+        path="/process/:id"
+        element={
+        <ProtectedRoute role={'ROLE_ADMIN'}>
+          <ProcessEbook />
+        </ProtectedRoute>}
+        />
+      <Route
+        path="/edit-book/:id"
+        element={
+        <ProtectedRoute role={'ROLE_USER'}>
+          <UpdateEbook />
+        </ProtectedRoute>}
+        />
+      <Route
+        path="/buy/:id"
+        element={
+        <ProtectedRoute role={'ROLE_USER'}>
+          <CheckoutForm />
+        </ProtectedRoute>}
+        />
+      <Route
+        path="/success"
+        element={
+        <ProtectedRoute role={'ROLE_USER'}>
+          <Success />
+        </ProtectedRoute>}
+        />
+      <Route
+        path="/cancel"
+        element={
+        <ProtectedRoute role={'ROLE_USER'}>
+          <Cancel />
+        </ProtectedRoute>}
+        />
+      <Route
+        path="/profile"
+        element={
+        <ProtectedRoute role={'ROLE_USER'}>
+          <Profile />
+        </ProtectedRoute>}
+        />
+        <Route
+        path="/admin"
+        element={
+        <ProtectedRoute role={'ROLE_ADMIN'}>
+          <Admin />
+        </ProtectedRoute>}
+        />
+        </Routes>
     <ToastContainer/>
     </div>
   );

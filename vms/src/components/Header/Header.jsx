@@ -29,7 +29,7 @@ const navLinks = [
 const Header = () => {
   const navigate = useNavigate();
   const menuRef = useRef(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState();
 
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
 
@@ -45,7 +45,7 @@ const Header = () => {
     sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("userId");
-    sessionStorage.removeItem("userRoles")
+    sessionStorage.removeItem("userRole")
     navigate('/')
   };
 
@@ -86,6 +86,10 @@ const Header = () => {
                     <i className="ri-login-circle-line" onClick={handleLogin}></i> Login
                   </Link>
                 )}
+
+                  <button className="btn btn-outline-primary" onClick={handleLogout}>
+                    <i className="ri-login-circle-line"></i> Logout
+                  </button>
 
                 {/* <Link to="#" className=" d-flex align-items-center gap-1">
                   <i class="ri-user-line"></i> Register

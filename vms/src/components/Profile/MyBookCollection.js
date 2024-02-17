@@ -44,7 +44,7 @@ const MyBookCollection = () => {
               <th scope="col">Title</th>
               <th scope="col">Genre</th>
               <th scope="col">Price</th>
-              <th scope="col">Purchased on</th>
+              {/* <th scope="col">Purchased on</th> */}
               <th scope="col">Author Name</th>
               {/* <th scope="col">Author ID</th> */}
               <th scope="col">Action</th>
@@ -57,7 +57,7 @@ const MyBookCollection = () => {
                 <td>{book.title}</td>
                 <td>{book.genre}</td>
                 <td>{book.price}</td>
-                <td>{book.purchasedOn}</td>
+                {/* <td>{book.purchasedOn}</td> */}
                 <td>{book.firstName} {book.lastName}</td>
                 {/* <td>{book.authorId}</td> */}
                 <td>

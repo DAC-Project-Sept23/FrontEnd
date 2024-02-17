@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -7,10 +7,12 @@ import { toast } from 'react-toastify';
 import TermsModal from './TermsModel';
 import { getAuthorizationHeader } from '../../utils/jwtUtil';
 const UpdateEbook = () => {
-  const { id } = useParams(); // Get the bookId from URL params
+  const { id } = useParams();
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [termsChecked, setTermsChecked] = useState(false);
   const navigate = useNavigate();
+  const epubFileInputRef = useRef(null);
+  const coverImageInputRef = useRef(null);
   const handleTermsClick = () => {
     setShowTermsModal(true);
   };
@@ -24,14 +26,15 @@ const UpdateEbook = () => {
   };
 
   const [bookData, setBookData] = useState({
-    bookName: '',
+    title: '',
     genre: '',
     description: '',
     price: '',
-    epubFile: null,
-    coverImage: null,
     userId: '',
+    bookId: id
   });
+  const [epubFile, setEpubFile] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
 
   useEffect(() => {
     fetchBookData();
@@ -46,7 +49,7 @@ const UpdateEbook = () => {
         },
       });
       setBookData(response.data);
-      toast.success("Fetched book successfully");
+      // toast.success("Fetched book successfully");
     } catch (error) {
       console.error('Error fetching ebook data:', error);
     }
@@ -56,14 +59,25 @@ const UpdateEbook = () => {
     const file = event.target.files[0];
     setter(file);
   };
-
+  
   const handleUpdate = async () => {
     // Make PUT request to update the ebook
     try {
-      const url = createUrl(`/books/${id}`);
-      const response = await axios.put(url, bookData, {
+      const formData = new FormData();
+      formData.append('title', bookData.title);
+      formData.append('genre', bookData.genre);
+      formData.append('description', bookData.description);
+      formData.append('price', bookData.price);
+      formData.append('userId', sessionStorage.getItem('userId'));
+      formData.append('bookId', id);
+      formData.append('epubFile', epubFile);
+      formData.append('coverImage', coverImage);
+  
+      const url = createUrl(`/books/update`);
+      const response = await axios.put(url, formData, {
         headers: {
           Authorization: getAuthorizationHeader(),
+          'Content-Type': 'multipart/form-data',
         },
       });
       if (response.status === 200) {
@@ -76,15 +90,19 @@ const UpdateEbook = () => {
       toast.error('Error updating ebook');
     }
   };
-  const goBackToHome = () => {
-    navigate(-1);
-  };
+  
 
   const resetForm = () => {
-    // Implement functionality to reset form fields to their original values
-    // You may need to make a separate request to fetch the original data again
-    // and set it to the state.
+    if (epubFileInputRef.current) epubFileInputRef.current.value = '';
+    if (coverImageInputRef.current) coverImageInputRef.current.value = '';
+    setEpubFile(null);
+    setCoverImage(null);
+    setTermsChecked(false);
   };
+  const goBackToHome = () =>
+  {
+    navigate(-1);
+  }
 
   const genreOptions = ['CHILDERNS', 'ROMANCE', 'YOUNG_ADULT', 'NON_FICTION', 'SCIENCE_FICTION', 'HORROR', 'BIOGRAPHIES'];
 
@@ -95,7 +113,7 @@ const UpdateEbook = () => {
       <Form className="upload-form">
         <Form.Group controlId="bookName">
           <Form.Label>Book Name</Form.Label>
-          <Form.Control type="text" value={bookData.title} onChange={(e) => setBookData({ ...bookData, bookName: e.target.value })} />
+          <Form.Control type="text" value={bookData.title} onChange={(e) => setBookData({ ...bookData, title: e.target.value })} />
         </Form.Group>
 
         <Form.Group controlId="genre">
@@ -120,12 +138,12 @@ const UpdateEbook = () => {
 
         <Form.Group controlId="epubFile">
           <Form.Label>Ebook File</Form.Label>
-          <Form.Control type="file" accept=".epub" onChange={(e) => handleFileChange(e, (file) => setBookData({ ...bookData, epubFile: file }))} />
+          <Form.Control type="file" accept=".epub" ref={epubFileInputRef} onChange={(e) => handleFileChange(e, setEpubFile)} />
         </Form.Group>
 
         <Form.Group controlId="coverImage">
           <Form.Label>Cover Image</Form.Label>
-          <Form.Control type="file" accept="image/*" onChange={(e) => handleFileChange(e, (file) => setBookData({ ...bookData, coverImage: file }))} />
+          <Form.Control type="file" accept="image/*" ref={coverImageInputRef} onChange={(e) => handleFileChange(e, setCoverImage)} />
         </Form.Group>
 
         <Form.Group controlId="termsCheckbox">

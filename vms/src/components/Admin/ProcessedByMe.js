@@ -56,7 +56,7 @@ const ProcessedByMe = () => {
         <label htmlFor="statusFilter" className="form-label">Filter by Status:</label>
         <select id="statusFilter" className="form-select" value={statusFilter} onChange={handleStatusFilterChange}>
           <option value="approved">Approved</option>
-          <option value="rejected">Rejected</option>
+          <option value="rejected">Rejected/Removed</option>
         </select>
       </div>
       <div className="table-responsive">
