@@ -69,7 +69,7 @@ const Wishlist = () => {
                 <td>{book.firstName + " " + book.lastName}</td>
                 <td>{book.price}</td>
                 <td>
-                  <Link to={`/buy-book/${book.id}`} className="btn btn-secondary btn-sm">Buy</Link>
+                  <Link to={`/buy/${book.id}`} className="btn btn-secondary btn-sm">Buy</Link>
                   {" "}
                   <button className="btn btn-danger btn-sm" onClick={() => removeBookFromWishlist(book.id)}>Remove</button>
                 </td>

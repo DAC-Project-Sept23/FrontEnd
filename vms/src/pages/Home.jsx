@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Helmet from "../components/Helmet/Helmet";
 import EbookList from '../components/UI/EbookList';
-import HeroSlider from "../components/UI/HeroSlider";
+import CommonSection from "../components/UI/CommonSection";
 const Home = () => {
   return (
     <>
-    <HeroSlider/>
+    <CommonSection title="Home for All Your Reading Adventures!" />
     <div className="container">
     <Helmet title="Home"/>
     <EbookList/>

@@ -93,7 +93,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
             </p>
             <div className="d-flex justify-content-between flex-lg-wrap">
               <p className="text-dark fs-5 fw-bold mb-0">{price == 0 ? 'FREE' : price}</p>
-              {!bought && !own && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN') &&(<Link
+              {!bought && !own && !free &&!(sessionStorage.getItem('userRole') === 'ROLE_ADMIN') &&(<Link
                 onMouseEnter={() => setIsHeartHovered(true)}
                 onMouseLeave={() => setIsHeartHovered(false)}
                 onClick={toggleWishlist}
@@ -110,7 +110,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
                (
                 <Link to={{
                   pathname: `/read/${id}`,
-                  state: { bought: bought }
+                  state: { bought: bought, free : free, own: own}
                 }}
                   onMouseEnter={() => setIsBookHovered(true)}
                   onMouseLeave={() => setIsBookHovered(false)}

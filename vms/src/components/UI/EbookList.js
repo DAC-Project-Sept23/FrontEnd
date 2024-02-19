@@ -29,13 +29,13 @@ const EbookList = () => {
         if (response.ok) {
           const data = await response.json();
           setEbooks(data);
-          console.log(data);
+          // console.log(data);
         } else {
-          console.error('Error fetching ebooks:', response.statusText);
+          // console.error('Error fetching ebooks:', response.statusText);
           toast.error('Error fetching ebooks:');
         }
       } catch (error) {
-        console.error('Error during fetchEbooks:', error);
+        // console.error('Error during fetchEbooks:', error);
         toast.error('Error fetching ebooks:');
       }
     };
@@ -56,12 +56,12 @@ const EbookList = () => {
           const data = await response.json();
           setWishlist(data)
         } else {
-          console.error('Error fetching wishlist:', response.statusText);
-          toast.error('Error fetching wishlist:');
+          // console.error('Error fetching wishlist:', response.statusText);
+          // toast.error('Error fetching wishlist:');
         }
       } catch (error) {
-        console.error('Error during fetch wishlist:', error);
-        toast.error('Error fetching wishlist:');
+        // console.error('Error during fetch wishlist:', error);
+        // toast.error('Error fetching wishlist:');
       }
     };
     if(isLoggedIn && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN'))
@@ -81,12 +81,12 @@ const EbookList = () => {
           const data = await response.json();
           setBoughtBooks(data);
         } else {
-          console.error('Error fetching bought list:', response.statusText);
-          toast.error('Error fetching bought list');
+          // console.error('Error fetching bought list:', response.statusText);
+          // toast.error('Error fetching bought list');
         }
       } catch (error) {
-        console.error('Error during fetch bought list:', error);
-        toast.error('Error fetching bought list');
+        // console.error('Error during fetch bought list:', error);
+        // toast.error('Error fetching bought list');
       }
     };
     if(isLoggedIn && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN'))
@@ -106,12 +106,12 @@ const EbookList = () => {
           const data = await response.json();
           setOwnBooks(data);
         } else {
-          console.error('Error fetching own list:', response.statusText);
-          toast.error('Error fetching own list');
+          // console.error('Error fetching own list:', response.statusText);
+          // toast.error('Error fetching own list');
         }
       } catch (error) {
-        console.error('Error during fetch own list:', error);
-        toast.error('Error fetching own list');
+        // console.error('Error during fetch own list:', error);
+        // toast.error('Error fetching own list');
       }
     };
     if(isLoggedIn && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN'))

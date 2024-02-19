@@ -126,7 +126,7 @@ const DisplayBook = ({ id, bought }) => {
   if (isLoggedIn){
     if(!(sessionStorage.getItem('userRole') === 'ROLE_ADMIN'))
     {
-      if(!(hasBoughtBook || ownBook))
+      if(!(hasBoughtBook || ownBook || isFree))
       {
         if (pageCount >= 5) {
           return <BuyEbook id={id} />;

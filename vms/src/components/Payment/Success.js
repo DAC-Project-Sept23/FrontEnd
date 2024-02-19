@@ -41,7 +41,7 @@ const Success = () => {
     }, [userId, bookId]);
 
     const goBackToHome = () => {
-        navigate(-1);
+        navigate('/home');
       };
 
     return (

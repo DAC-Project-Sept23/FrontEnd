@@ -158,7 +158,7 @@
 
 
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { createUrl } from '../utils/utils'
@@ -173,6 +173,7 @@ function RegisterUser() {
   const [dob, setDob] = useState('')
   const [otp, setOtp] = useState('')
   const [otpSent, setOtpSent] = useState(false)
+  const [timer, setTimer] = useState(0);
 
   const navigate = useNavigate();
 
@@ -184,7 +185,6 @@ function RegisterUser() {
     }
     try {
       const url = createUrl('/users/send-otp')
-      toast.info(email);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -195,6 +195,7 @@ function RegisterUser() {
       if (response.ok) {
         toast.success('OTP sent successfully');
         setOtpSent(true);
+        setTimer(300);
       } else {
         toast.error('Failed to send OTP');
       }
@@ -203,6 +204,24 @@ function RegisterUser() {
       toast.error('Failed to send OTP. Please try again.');
     }
   };
+
+  useEffect(() => {
+    let interval;
+    if (otpSent) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [otpSent]);
+
+  useEffect(() => {
+    if (timer === 0) {
+      setOtpSent(false);
+      setTimer(300);
+    }
+  }, [timer]);
 
   const registerUser = async () => {
     if (firstName.length === 0) {
@@ -330,21 +349,26 @@ function RegisterUser() {
                 }}
               />
             </div>
-            
             {otpSent ? (
-              <div className='mb-3'>
-                <label htmlFor=''>OTP</label>
-                <input
-                  type='text'
-                  className='form-control'
-                  onChange={(e) => {
-                    setOtp(e.target.value)
-                  }}
-                />
-              </div>
-            ) : (
-              <button onClick={generateAndSendOTP} className='btn btn-primary'>Send OTP</button>
-            )}
+          <>
+          <div className='mb-3'>
+            <label htmlFor=''>OTP</label>
+            <input
+              type='text'
+              className='form-control'
+              value={otp}
+              onChange={(e) => {
+                setOtp(e.target.value);
+              }}
+            />
+          </div>
+          <div>{`Time remaining: ${Math.floor(timer / 60)}:${timer % 60 < 10 ? '0' : ''}${timer % 60}`}</div>
+        </>
+      ) : (
+        <button onClick={generateAndSendOTP} className='btn btn-primary'>
+          Get OTP
+        </button>
+      )}
 
             <div className='mb-3' style={{ marginTop: '10px' }}>
               <button onClick={registerUser} className='btn btn-success'>

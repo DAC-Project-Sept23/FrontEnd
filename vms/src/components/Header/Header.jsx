@@ -70,9 +70,10 @@ const Header = () => {
           <Row>
             <Col lg="6" md="6" sm="6">
               <div className="header__top__left">
-                <h4 className="header__location-content"><span>Your virtual bookshelf awaits, fill it with endless possibilities.</span></h4>
+              <h4 className="header__location-content">
+                Your virtual bookshelf awaits, fill it with endless possibilities.
+              </h4>
                 <span className="header__top__help">
-                  {/* <i class="ri-phone-fill"></i> +917057816893 */}
                 </span>
               </div>
             </Col>
@@ -84,13 +85,15 @@ const Header = () => {
                     <i className="ri-login-circle-line"></i> Logout
                   </button>
                 ) : (
+                  <>
                   <Link to="/login" className="btn btn-outline-primary">
                     <i className="ri-login-circle-line" onClick={handleLogin}></i> Login
                   </Link>
-                )}
-                <Link to="/register" className="btn btn-outline-primary" >
+                  <Link to="/register" className="btn btn-outline-primary" >
                   <i class="ri-user-line"></i> Register
                 </Link>
+                </>
+                )}
               </div>
             </Col>
           </Row>

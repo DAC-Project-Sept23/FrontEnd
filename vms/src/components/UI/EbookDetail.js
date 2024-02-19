@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Reviews from './Reviews';
 import PostReview from './PostReview';
 import DisplayBook from './DisplayBook';
@@ -8,12 +8,11 @@ import { toast } from 'react-toastify';
 import { getAuthorizationHeader } from "../../utils/jwtUtil";
 const EbookDetail = () => {
   const { id } = useParams();
-  const { bought } = useParams();
+  const location = useLocation();
   const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
   const userId = sessionStorage.getItem('userId');
   const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -89,7 +88,7 @@ const handleUpdate = async (updatedReview) => {
   return (
     <div>
     {/* <button onClick={goBackToHome} className="btn btn-outline-dark m-2">Close</button> */}
-    <DisplayBook id={id} bought={bought}/>
+    <DisplayBook id={id}/>
     {isLoggedIn && !userHasPostedReview && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN') && <PostReview bookId={id}/>}
     <Reviews reviews={reviews} userId={userId} onDelete={handleDelete} onUpdate={handleUpdate}/>
   </div>

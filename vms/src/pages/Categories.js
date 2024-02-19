@@ -35,14 +35,14 @@ const Categories = () => {
           const data = await response.json();
           setEbooks(data);
           setFilteredEbooks(data); // Initially set filteredEbooks to all ebooks
-          console.log(data);
+          // console.log(data);
         } else {
-          console.error('Error fetching ebooks:', response.statusText);
-          toast.error('Error fetching ebooks:');
+          // console.error('Error fetching ebooks:', response.statusText);
+          // toast.error('Error fetching ebooks:');
         }
       } catch (error) {
-        console.error('Error during fetchEbooks:', error);
-        toast.error('Error fetching ebooks:');
+        // console.error('Error during fetchEbooks:', error);
+        // toast.error('Error fetching ebooks:');
       }
     };
 
@@ -62,12 +62,12 @@ const Categories = () => {
           const data = await response.json();
           setWishlist(data)
         } else {
-          console.error('Error fetching wishlist:', response.statusText);
-          toast.error('Error fetching wishlist:');
+          // console.error('Error fetching wishlist:', response.statusText);
+          // toast.error('Error fetching wishlist:');
         }
       } catch (error) {
-        console.error('Error during fetch wishlist:', error);
-        toast.error('Error fetching wishlist:');
+        // console.error('Error during fetch wishlist:', error);
+        // toast.error('Error fetching wishlist:');
       }
     };
     if(isLoggedIn)
@@ -88,12 +88,12 @@ const Categories = () => {
           const data = await response.json();
           setBoughtBooks(data);
         } else {
-          console.error('Error fetching bought list:', response.statusText);
-          toast.error('Error fetching bought list');
+          // console.error('Error fetching bought list:', response.statusText);
+          // toast.error('Error fetching bought list');
         }
       } catch (error) {
-        console.error('Error during fetch bought list:', error);
-        toast.error('Error fetching bought list');
+        // console.error('Error during fetch bought list:', error);
+        // toast.error('Error fetching bought list');
       }
     };
     if(isLoggedIn)
@@ -208,7 +208,7 @@ const filterEbooks = () => {
               <div id="tab-1" className="tab-pane fade show p-0 active">
                 <div className="row g-4">
                   {currentEbooks.map((ebook) => (
-                    <EbookCard key={ebook.id} {...ebook} wish={wishlist.includes(ebook.id)} bought={boughtBooks.includes(ebook.id)} />
+                    <EbookCard key={ebook.id} {...ebook} wish={wishlist.includes(ebook.id)} bought={boughtBooks.includes(ebook.id)} free={ebook.price==0}/>
                   ))}
                 </div>
               </div>

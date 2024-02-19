@@ -11,10 +11,6 @@
   column-gap: 1rem;
 }
 
-/* .header__top__left span {
-  font-size: 0.9rem;
-} */
-
 .header__top__help {
   display: flex;
   align-items: center;
@@ -165,9 +161,9 @@
 @media only screen and (max-width: 768px) {
   .header__top,
   .header__middle,
-  .nav__right {
+  /* .nav__right {
     display: none;
-  }
+  } */
 
   .mobile__menu {
     display: block;
@@ -206,5 +202,4 @@
   }
 }
 
-/* newly added */
 
