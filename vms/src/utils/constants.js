@@ -1,4 +1,3 @@
 export const constants = {
-  // serverUrl: 'http://localhost:3001',
-  serverUrl: 'http://localhost:8080',
+  serverUrl: 'http://51.20.34.55:8080',
 }

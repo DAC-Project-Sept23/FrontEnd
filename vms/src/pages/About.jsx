@@ -59,10 +59,10 @@ const About = () => {
         <Container>
           <Row>
             <Col lg="12" className="mb-5 text-center">
-              <h6 className="section__subtitle">Meet</h6>
-              <h2 className="section__title">The Creators</h2>
+              {/* <h6 className="section__subtitle">Meet</h6> */}
+              {/* <h2 className="section__title">The Creators</h2> */}
             </Col>
-            <OurMembers />
+            {/* <OurMembers /> */}
           </Row>
         </Container>
       </section>

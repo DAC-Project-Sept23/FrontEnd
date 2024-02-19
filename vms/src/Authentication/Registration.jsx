@@ -169,7 +169,7 @@ function RegisterUser() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [role, setRole] = useState('ROLE_USER')
+  const [role, setRole] = useState('ROLE_ADMIN')
   const [dob, setDob] = useState('')
   const [otp, setOtp] = useState('')
   const [otpSent, setOtpSent] = useState(false)
