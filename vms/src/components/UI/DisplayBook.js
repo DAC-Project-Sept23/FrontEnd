@@ -20,6 +20,7 @@ const DisplayBook = ({ id, bought }) => {
   const [ownBook, setOwnBook] = useState(false);
   const userId = sessionStorage.getItem('userId');
   const [coverImage, setCoverImage] = useState("");
+  const [isFree, setIsFree] = useState(false);
   
   useEffect(() => {
     setIsLoggedIn(sessionStorage.getItem('isLoggedIn') === 'true');
@@ -34,11 +35,8 @@ const DisplayBook = ({ id, bought }) => {
         if (response.ok) {
           const data = await response.json();
           setUserBooks(data);
-          console.log('Data array:', data);
-          console.log('Book id:', id);
           const hasBought = data.some(item => item == parseInt(id, 10));
           setHasBoughtBook(hasBought);
-          console.log(hasBoughtBook);
         } else {
           console.error('Error fetching user books:', response.statusText);
           toast.error('Error fetching user books:', response.statusText);
@@ -69,6 +67,8 @@ const DisplayBook = ({ id, bought }) => {
           const data = await response.json();
           // toast.success('Success fetching ebook');
           setEbook(data);
+          if(data.price == 0)
+          setIsFree(true);
           setCoverImage(data.coverImageContent ? `data:image/jpeg;base64,${data.coverImageContent}` : 'placeholder_image_url.jpg')
           const fullEpubUrl = data.filePath;
           const bookUrl = createUrl(`/books/${fullEpubUrl}`)
@@ -118,7 +118,7 @@ const DisplayBook = ({ id, bought }) => {
     setPageCount(prevCount => prevCount + 1);
     setLocation(newLocation);
   }
-  if (!isLoggedIn) {
+  if (!isFree && !isLoggedIn) {
     if (pageCount >= 5) {
       return <SignInPrompt />;
     }
@@ -169,7 +169,7 @@ const DisplayBook = ({ id, bought }) => {
       height={250}
       width={'20%'}
     />
-    {ebook.firstName + " " + ebook.lastName}
+    {ebook.description}
   </div>
   </>
   );

@@ -10,7 +10,7 @@ import star from '../../assets/all-images/svgs/star-icon.svg';
 import { createUrl } from '../../utils/utils';
 import '../../styles/EbookCard.css'
 import { getAuthorizationHeader } from '../../utils/jwtUtil';
-const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, price, wish, bought, rating, own}) => {
+const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, price, wish, bought, rating, own, free}) => {
   const imageUrl = coverImageContent ? `data:image/jpeg;base64,${coverImageContent}` : 'placeholder_image_url.jpg';
   const [isHeartHovered, setIsHeartHovered] = useState(false);
   const [isBookHovered, setIsBookHovered] = useState(false);
@@ -92,7 +92,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
               <div style={{ fontSize: '1em' }}>By {firstName + " " + lastName}</div>
             </p>
             <div className="d-flex justify-content-between flex-lg-wrap">
-              <p className="text-dark fs-5 fw-bold mb-0">{price}</p>
+              <p className="text-dark fs-5 fw-bold mb-0">{price == 0 ? 'FREE' : price}</p>
               {!bought && !own && !(sessionStorage.getItem('userRole') === 'ROLE_ADMIN') &&(<Link
                 onMouseEnter={() => setIsHeartHovered(true)}
                 onMouseLeave={() => setIsHeartHovered(false)}
@@ -106,7 +106,7 @@ const EbookCard = ({ id, coverImageContent, title, genre, firstName, lastName, p
                   width={25}
                 />
               </Link>)}
-               {((bought || own || (sessionStorage.getItem('userRole') === 'ROLE_ADMIN')) ? 
+               {((free || bought || own || (sessionStorage.getItem('userRole') === 'ROLE_ADMIN')) ? 
                (
                 <Link to={{
                   pathname: `/read/${id}`,

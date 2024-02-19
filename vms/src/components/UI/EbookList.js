@@ -146,7 +146,7 @@ const EbookList = () => {
           <div id="tab-1" className="tab-pane fade show p-0 active">
             <div className="row row-cols-2 g-4">
             {currentEbooks.map((ebook) => (
-            <EbookCard key={ebook.id} {...ebook} wish={wishlist.includes(ebook.id)} bought={boughtBooks.includes(ebook.id)} own={ownBooks.includes(ebook.id)} />
+            <EbookCard key={ebook.id} {...ebook} wish={wishlist.includes(ebook.id)} bought={boughtBooks.includes(ebook.id)} own={ownBooks.includes(ebook.id)} free={ebook.price==0}/>
               ))}
             </div>
             {/* Pagination */}

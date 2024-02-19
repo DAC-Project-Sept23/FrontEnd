@@ -30,7 +30,7 @@ const Contact = () => {
   const navigate = useNavigate();
 
   const goHome = () => {
-    toast.success("Thanks For Contact Us We Will Contact You Soon !!");
+    toast.success("Thank you for contacting us, we will get in touch with you soon!");
     navigate('/');
   }
   return (
@@ -71,12 +71,12 @@ const Contact = () => {
                 </p>
                 <div className=" d-flex align-items-center gap-2">
                   <h6 className="fs-6 mb-0">Phone:</h6>
-                  <p className="section__description mb-0">+91-7057816893</p>
+                  <p className="section__description mb-0">+91-1234567890</p>
                 </div>
 
                 <div className=" d-flex align-items-center gap-2">
                   <h6 className="mb-0 fs-6">Email:</h6>
-                  <p className="section__description mb-0">vaibhavkt2@gmail.com</p>
+                  <p className="section__description mb-0">contact@page-palette.com</p>
                 </div>
 
                 <h6 className="fw-bold mt-4">Follow Us</h6>

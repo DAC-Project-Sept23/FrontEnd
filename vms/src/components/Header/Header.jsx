@@ -29,13 +29,11 @@ const navLinks = [
 const Header = () => {
   const navigate = useNavigate();
   const menuRef = useRef(null);
-  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
 
   const handleLogin = () => {
-    // Perform login actions
-    setIsLoggedIn(true);
     window.location.reload();
   };
 
@@ -48,6 +46,13 @@ const Header = () => {
     sessionStorage.removeItem("userRole")
     navigate('/')
   };
+
+  setTimeout(()=>{
+    if(sessionStorage.getItem('isLoggedIn') === 'true') {
+      setIsLoggedIn(true);
+    }
+  }, 1000);
+  
 
   useEffect(() => {
     const sessionStatus = sessionStorage.getItem("isLoggedIn");
@@ -65,7 +70,7 @@ const Header = () => {
           <Row>
             <Col lg="6" md="6" sm="6">
               <div className="header__top__left">
-                <h4><span>Your virtual bookshelf awaits, fill it with endless possibilities.</span></h4>
+                <h4 className="header__location-content"><span>Your virtual bookshelf awaits, fill it with endless possibilities.</span></h4>
                 <span className="header__top__help">
                   {/* <i class="ri-phone-fill"></i> +917057816893 */}
                 </span>
@@ -74,9 +79,6 @@ const Header = () => {
 
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                {/* <Link to="#" className=" d-flex align-items-center gap-1">
-                  <i class="ri-login-circle-line"></i> Login
-                </Link> */}
                 {isLoggedIn ? (
                   <button className="btn btn-outline-primary" onClick={handleLogout}>
                     <i className="ri-login-circle-line"></i> Logout
@@ -86,14 +88,6 @@ const Header = () => {
                     <i className="ri-login-circle-line" onClick={handleLogin}></i> Login
                   </Link>
                 )}
-
-                  <button className="btn btn-outline-primary" onClick={handleLogout}>
-                    <i className="ri-login-circle-line"></i> Logout
-                  </button>
-
-                {/* <Link to="#" className=" d-flex align-items-center gap-1">
-                  <i class="ri-user-line"></i> Register
-                </Link> */}
                 <Link to="/register" className="btn btn-outline-primary" >
                   <i class="ri-user-line"></i> Register
                 </Link>
@@ -118,7 +112,7 @@ const Header = () => {
               </div>
             </Col>
 
-            {/* <Col lg="3" md="3" sm="4">
+            <Col lg="3" md="3" sm="4">
               <div className="header__location d-flex align-items-center gap-2">
                 <span>
                   <i class="ri-earth-line"></i>
@@ -128,27 +122,26 @@ const Header = () => {
                   <h6>Pune, Hinjewadi</h6>
                 </div>
               </div>
-            </Col> */}
+            </Col>
 
-            {/* <Col lg="3" md="3" sm="4">
+            <Col lg="3" md="3" sm="4">
               <div className="header__location d-flex align-items-center gap-2">
                 <span>
-                  <i class="ri-time-line"></i>
+                <i class="ri-book-line"></i>
                 </span>
                 <div className="header__location-content">
-                  <h4>Sunday to Friday</h4>
-                  <h6>10am - 7pm</h6>
+                  <h4>Read on your terms, anytime, anywhere.</h4>
                 </div>
               </div>
-            </Col> */}
+            </Col>
 
-            {/* <Col lg="2" md="3" sm="0" className=" d-flex align-items-center justify-content-end ">
+            <Col lg="2" md="3" sm="0" className=" d-flex align-items-center justify-content-end ">
               <button className="header__btn btn ">
                 <Link to="/contact">
-                  <i class="ri-phone-line"></i> Request a call
+                <i class="ri-mail-line"></i> Get in touch
                 </Link>
               </button>
-            </Col> */}
+            </Col>
           </Row>
         </Container>
       </div>
@@ -175,8 +168,15 @@ const Header = () => {
                     {item.display}
                   </NavLink>
                 ))}
-                {isLoggedIn && (
+                {isLoggedIn && sessionStorage.getItem('userRole') === 'ROLE_USER' && (
                 <NavLink to="/profile" className={(navClass) =>
+                  navClass.isActive ? "nav__active nav__item" : "nav__item"
+                }>
+                  Profile
+                </NavLink>
+                  )}
+                  {isLoggedIn && sessionStorage.getItem('userRole') === 'ROLE_ADMIN' && (
+                <NavLink to="/admin" className={(navClass) =>
                   navClass.isActive ? "nav__active nav__item" : "nav__item"
                 }>
                   Profile
@@ -184,7 +184,6 @@ const Header = () => {
                   )}
               </div>
             </div>
-
             <div className="nav__right">
               <div className="search__box">
                 <input type="text" placeholder="Search" />

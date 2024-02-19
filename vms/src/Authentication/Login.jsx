@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { loginUser as loginUserApi } from '../services/user';
 import { createUrl } from '../utils/utils';
 import axios from 'axios';
 function LoginUser() {
@@ -33,7 +32,7 @@ function LoginUser() {
         console.log(sessionStorage.getItem("token") + " " + sessionStorage.getItem("userRole") + " " + sessionStorage.getItem("userId") + sessionStorage.getItem("isLoggedIn"));
         if (userRoles === 'ROLE_USER') {
           navigate('/profile');
-          toast.success('User login successful');
+          toast.success('Logged in successfully.');
         } else if (userRoles === 'ROLE_ADMIN') {
           navigate('/admin');
           toast.success('Welcome Admin!');
@@ -44,7 +43,6 @@ function LoginUser() {
         toast.error('Invalid email or password');
       }
     } catch (error) {
-      // console.error(error);
       toast.error('Invalid email or password');
     }
   };
@@ -80,6 +78,9 @@ function LoginUser() {
             <div className='mb-3'>
               <div className='mb-3'>
                 Don't have an account? <Link to='/register'>Register here</Link>
+              </div>
+              <div className='mb-3'>
+                Forgot your password? <Link to='/forgot-password'>Click here</Link>
               </div>
               <button onClick={loginUser} className='btn btn-success'>
                 Login

@@ -5,7 +5,7 @@ import Helmet from "../components/Helmet/Helmet";
 import AboutSection from "../components/UI/AboutSection";
 import { Container, Row, Col } from "reactstrap";
 
-import driveImg from "../assets/all-images/drive.jpg";
+import driveImg from "../assets/all-images/ebook-store.jpg";
 import OurMembers from "../components/UI/OurMembers";
 import "../styles/about.css";
 
@@ -26,24 +26,19 @@ const About = () => {
 
             <Col lg="6" md="6" sm="12">
               <div className="about__page-content">
+              <div className="about__section">
                 <h2 className="section__title">
-                  We Are Committed To Provide Safe Ride Solutions
+                  Our Commitment to You
                 </h2>
 
                 <p className="section__description">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Eveniet veniam assumenda aperiam accusantium ex autem
-                  perferendis repellendus nostrum delectus. Nemo et dolore est
-                  tempore rem minima adipisci magni dolorum ipsam.
+                  At Page Palette, we are committed to providing you with the best ebook shopping experience possible. We offer a diverse range of ebooks, carefully curated to cater to every reading taste. Whether you're into fiction, non-fiction, self-help, or children's books, you'll find something you love in our collection.
                 </p>
 
                 <p className="section__description">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Eveniet veniam assumenda aperiam accusantium ex autem
-                  perferendis repellendus nostrum delectus. Nemo et dolore est
-                  tempore rem minima adipisci magni dolorum ipsam.
+                  Our user-friendly interface makes it easy for you to browse, purchase, and enjoy your favorite ebooks. We strive to ensure that every interaction you have with Page Palette is seamless and enjoyable. Your satisfaction is our top priority, and we are dedicated to providing you with exceptional customer service every step of the way.
                 </p>
-
+              </div>
                 <div className=" d-flex align-items-center gap-3 mt-4">
                   <span className="fs-4">
                     <i class="ri-phone-line"></i>
@@ -51,7 +46,7 @@ const About = () => {
 
                   <div>
                     <h6 className="section__subtitle">Need Any Help?</h6>
-                    <h4>+91-7057816893</h4>
+                    <h4>+91-1234567890</h4>
                   </div>
                 </div>
               </div>
@@ -64,8 +59,8 @@ const About = () => {
         <Container>
           <Row>
             <Col lg="12" className="mb-5 text-center">
-              <h6 className="section__subtitle">Experts</h6>
-              <h2 className="section__title">Our Members</h2>
+              <h6 className="section__subtitle">Meet</h6>
+              <h2 className="section__title">The Creators</h2>
             </Col>
             <OurMembers />
           </Row>

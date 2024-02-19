@@ -19,13 +19,13 @@ const HeroSlider = () => {
   };
   return (
     <Slider {...settings} className="hero__slider">
-      <div className="slider__item slider__item-01 mt0">
+      {/* <div className="slider__item slider__item-01 mt0">
         <Container>
           <div className="slider__content ">
           
             <button className="btn reserve__btn mt-4">
               
-              <Link to="/cars">Book Now</Link> 
+              <Link to="/categories">Book Now</Link> 
             </button>
           </div>
         </Container>
@@ -36,7 +36,7 @@ const HeroSlider = () => {
           <div className="slider__content ">
            
             <button className="btn reserve__btn mt-4">
-              <Link to="/cars">Book Now</Link>
+              <Link to="/login">Book Now</Link>
             </button>
           </div>
         </Container>
@@ -46,11 +46,11 @@ const HeroSlider = () => {
         <Container>
           <div className="slider__content ">
             <button className="btn reserve__btn mt-4">
-              <Link to="/cars">Book Now</Link>
+              <Link to="/categories">Book Now</Link>
             </button>
           </div>
         </Container>
-      </div>
+      </div> */}
     </Slider>
   );
 };

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 const Cancel = () => {
     const navigate = useNavigate();
     const goBackToHome = () => {
-        navigate(-1);
+        navigate('/home');
       };
 
     return (

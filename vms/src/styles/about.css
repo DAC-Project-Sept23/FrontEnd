@@ -9,3 +9,72 @@
     display: none;
   }
 }
+
+
+/* AboutUs.css */
+.about-us-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.section-heading {
+  color: #333;
+}
+
+.creators-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.creator-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Add box-shadow transition */
+  flex: 1;
+}
+
+.creator-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
+}
+
+.card-image {
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-image:hover img {
+  transform: scale(1.2);
+}
+
+.card-content {
+  padding: 15px;
+}
+
+.creator-name {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.creator-role {
+  font-style: italic;
+  color: #777;
+}
+
+.creator-description {
+  color: #444;
+}
+
