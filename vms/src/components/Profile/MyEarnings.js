@@ -36,7 +36,7 @@ const MyEarnings = () => {
   return (
     <div className="container">
       <h1>Your Earnings</h1>
-      <h2>Total Earnings: ${totalEarnings}</h2>
+      <h2>Total Earnings: ${totalEarnings.toFixed(2)}</h2>
       <div className="table-responsive">
         <table className="table table-striped table-bordered">
           <thead>
@@ -55,7 +55,7 @@ const MyEarnings = () => {
                 <td>{book.title}</td>
                 <td>{book.genre}</td>
                 <td>${book.price}</td>
-                <td>${book.revenue}</td>
+                <td>${book.revenue.toFixed(2)}</td>
               </tr>
             ))}
           </tbody>

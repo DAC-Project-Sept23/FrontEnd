@@ -169,7 +169,7 @@ function RegisterUser() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [role, setRole] = useState('ROLE_ADMIN')
+  const [role, setRole] = useState('ROLE_USER')
   const [dob, setDob] = useState('')
   const [otp, setOtp] = useState('')
   const [otpSent, setOtpSent] = useState(false)
@@ -226,8 +226,12 @@ function RegisterUser() {
   const registerUser = async () => {
     if (firstName.length === 0) {
       toast.error('Please enter first name');
+    } else if (!firstName.match(/^[A-Za-z]+$/)) {
+      toast.error('First name should contain only alphabets.');
     } else if (lastName.length === 0) {
-      toast.error('Please enter last name');
+      toast.error('Please enter last name');  
+    } else if (!lastName.match(/^[A-Za-z]+$/)) {
+      toast.error('Last name should contain only alphabets.');
     } else if (!email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
       toast.error('Invalid email format');
     } else if (email.length === 0) {

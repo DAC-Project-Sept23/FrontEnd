@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c8bb740f.css",
+    "main.js": "/static/js/main.20b00704.js",
+    "static/media/remixicon.svg?t=1590207869815": "/static/media/remixicon.9cedd2150922ead84869.svg",
+    "static/media/remixicon.eot?t=1590207869815": "/static/media/remixicon.5cb99e6cba5a4619063f.eot",
+    "static/media/remixicon.ttf?t=1590207869815": "/static/media/remixicon.f2616f597cf98f38d234.ttf",
+    "static/media/ava-03.jpg": "/static/media/ava-03.4b0c4417ae4b9009c0ec.jpg",
+    "static/media/ava-01.jpg": "/static/media/ava-01.198fb3a706f87c0a80c1.jpg",
+    "static/media/Background.jpg": "/static/media/Background.3cb722608125e53d357a.jpg",
+    "static/media/remixicon.woff?t=1590207869815": "/static/media/remixicon.8d09fa11700ed63cf96e.woff",
+    "static/media/imge-1.jpg": "/static/media/imge-1.7b1845dd45ebb2b0ddce.jpg",
+    "static/media/remixicon.woff2?t=1590207869815": "/static/media/remixicon.90668f6f9b3c2c18a090.woff2",
+    "static/media/Logo.jpg": "/static/media/Logo.02a5dc4d42800e358510.jpg",
+    "static/media/ebook-store.jpg": "/static/media/ebook-store.9ea6ea6ec793655bb72c.jpg",
+    "static/media/star-icon.svg": "/static/media/star-icon.4ea60ea28f8b5c31d6ea585febafd66b.svg",
+    "static/media/open-book-icon.svg": "/static/media/open-book-icon.95d192a989ab0a04451a8487cfca9651.svg",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/buy-label-icon.svg": "/static/media/buy-label-icon.7683d99f87472d8b4402b1a2d11bda41.svg",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "static/media/heart-outline-icon.svg": "/static/media/heart-outline-icon.ba049f6265794c7a936492db8687ea64.svg",
+    "static/media/heart-flat-icon.svg": "/static/media/heart-flat-icon.4ced9e67b71fc097f141605475e6ee58.svg",
+    "static/media/recycle-bin-icon.svg": "/static/media/recycle-bin-icon.7be8565e0d482c6f2807ed550b905de9.svg",
+    "index.html": "/index.html",
+    "main.c8bb740f.css.map": "/static/css/main.c8bb740f.css.map",
+    "main.20b00704.js.map": "/static/js/main.20b00704.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c8bb740f.css",
+    "static/js/main.20b00704.js"
+  ]
+}
